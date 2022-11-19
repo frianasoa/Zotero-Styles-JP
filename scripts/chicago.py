@@ -32,6 +32,7 @@ class Chicago:
         self.setdate()
         self.setcontainertitle()
         self.locatorsarticle()
+        self.locatorschapter()
         
         #save
         self.save()
@@ -128,6 +129,12 @@ class Chicago:
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " (", "suffix": ")."})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})
     
+    
+    def locatorschapter(self):
+        lc = self.macros.get("locators-chapter", None)
+        c = self.addcondition(lc, "z:choose/z:if/z:choose/z:if/z:group")
+        self.setattr(c["if"], "z:group", {"prefix": "、", "suffix": "頁"})
+        self.setattr(c["else"], "z:group", {"prefix": ", pp. "})
     
     def locatorsarticle(self):
         la = self.macros.get("locators-article", None)

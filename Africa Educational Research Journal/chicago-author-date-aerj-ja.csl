@@ -376,10 +376,20 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
           <if variable="page">
-            <group prefix=", ">
-              <text variable="volume" suffix=":"/>
-              <text variable="page"/>
-            </group>
+            <choose>
+              <if variable="language">
+                <group prefix="、" suffix="頁">
+                  <text variable="volume" suffix=":"/>
+                  <text variable="page"/>
+                </group>
+              </if>
+              <else>
+                <group prefix=", pp. ">
+                  <text variable="volume" suffix=":"/>
+                  <text variable="page"/>
+                </group>
+              </else>
+            </choose>
           </if>
         </choose>
       </if>
