@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="chicago" default-locale="ja-JA">
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="chicago">
   <info>
-    <title>Chicago Manual of Style 17th edition (author-date) - AERJ　（日本語）</title>
-    <id>http://www.zotero.org/styles/chicago-author-date-aerj-ja</id>
+    <title>Chicago Manual of Style 17th edition (author-date)</title>
+    <id>http://www.zotero.org/styles/chicago-author-date</id>
     <link href="http://www.zotero.org/styles/chicago-author-date" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
     <author>
@@ -30,27 +30,15 @@
     <contributor>
       <name>Brenton M. Wiernik</name>
     </contributor>
-    <contributor>
-      <name>Fanantenana Rianasoa Andriariniaina</name>
-      <uri>https://orcid.org/0000-0002-8665-0922</uri>
-    </contributor>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
-    <summary>The author-date variant of the Chicago style - Edited for AERJ　（日本語）</summary>
+    <summary>The author-date variant of the Chicago style</summary>
     <updated>2022-02-06T02:20:47+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
-  <locale xml:lang="ja">
-    <terms>
-      <term name="and others">et al.</term>
-      <term name="editor" form="short">
-        <single>ed.</single>
-        <multiple>eds.</multiple>
-      </term>
-    </terms>
-  </locale>
   <locale xml:lang="en">
     <terms>
+      <term name="editor" form="verb-short">ed.</term>
       <term name="container-author" form="verb">by</term>
       <term name="translator" form="verb-short">trans.</term>
       <term name="editortranslator" form="verb">edited and translated by</term>
@@ -402,24 +390,10 @@
       <else-if type="article-journal">
         <choose>
           <if variable="volume issue" match="any">
-            <choose>
-              <if variable="language">
-                <text variable="page" prefix="、" suffix="頁"/>
-              </if>
-              <else>
-                <text variable="page" prefix="" suffix="頁"/>
-              </else>
-            </choose>
+            <text variable="page" prefix=": "/>
           </if>
           <else>
-            <choose>
-              <if variable="language">
-                <text variable="page" prefix=", "/>
-              </if>
-              <else>
-                <text variable="page" prefix=", "/>
-              </else>
-            </choose>
+            <text variable="page" prefix=", "/>
           </else>
         </choose>
       </else-if>
@@ -463,46 +437,23 @@
   </macro>
   <macro name="container-title">
     <choose>
+      <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
+        <text macro="container-prefix" suffix=" "/>
+      </if>
+    </choose>
+    <choose>
       <if type="webpage">
         <text variable="container-title" text-case="title"/>
       </if>
       <else-if type="legal_case" match="none">
-        <choose>
-          <if variable="language">
-            <group delimiter=" ">
-              <choose>
-                <if type="post-weblog">
-                  <text value="(blog)"/>
-                </if>
-              </choose>
-              <choose>
-                <if type="article-journal">
-                  <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
-                </if>
-                <else>
-                  <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
-                </else>
-              </choose>
-            </group>
-          </if>
-          <else>
-            <group delimiter=" ">
-              <choose>
-                <if type="post-weblog">
-                  <text value="(blog)"/>
-                </if>
-              </choose>
-              <choose>
-                <if type="article-journal">
-                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=", "/>
-                </if>
-                <else>
-                  <text variable="container-title" text-case="title" font-style="italic"/>
-                </else>
-              </choose>
-            </group>
-          </else>
-        </choose>
+        <group delimiter=" ">
+          <text variable="container-title" text-case="title" font-style="italic"/>
+          <choose>
+            <if type="post-weblog">
+              <text value="(blog)"/>
+            </if>
+          </choose>
+        </group>
       </else-if>
     </choose>
   </macro>
@@ -515,24 +466,12 @@
   <macro name="date">
     <choose>
       <if variable="issued">
-        <choose>
-          <if variable="language">
-            <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix="（" suffix="）"/>
-              <date variable="issued" prefix="（" suffix="）">
-                <date-part name="year"/>
-              </date>
-            </group>
-          </if>
-          <else>
-            <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix=" (" suffix=")."/>
-              <date variable="issued" prefix=" (" suffix="). ">
-                <date-part name="year"/>
-              </date>
-            </group>
-          </else>
-        </choose>
+        <group delimiter=" ">
+          <date variable="original-date" form="text" date-parts="year" prefix="(" suffix=")"/>
+          <date variable="issued">
+            <date-part name="year"/>
+          </date>
+        </group>
       </if>
       <else-if variable="status">
         <text variable="status" text-case="capitalize-first"/>
@@ -681,38 +620,24 @@
       </else-if>
       <else-if type="article-journal" match="any"/>
       <else>
-        <choose>
-          <if variable="language">
-            <group prefix="" delimiter="">
-              <choose>
-                <if type="thesis">
-                  <text variable="genre" text-case="capitalize-first"/>
-                </if>
-              </choose>
-              <text macro="publisher"/>
-            </group>
-          </if>
-          <else>
-            <group prefix=". " delimiter=", ">
-              <choose>
-                <if type="thesis">
-                  <text variable="genre" text-case="capitalize-first"/>
-                </if>
-              </choose>
-              <text macro="publisher"/>
-            </group>
-          </else>
-        </choose>
+        <group prefix=". " delimiter=", ">
+          <choose>
+            <if type="thesis">
+              <text variable="genre" text-case="capitalize-first"/>
+            </if>
+          </choose>
+          <text macro="publisher"/>
+        </group>
       </else>
     </choose>
   </macro>
-  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; ">
+  <citation et-al-min="4" et-al-use-first="1" disambiguate-add-year-suffix="true" disambiguate-add-names="true" disambiguate-add-givenname="true" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; ">
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
         <choose>
           <if variable="issued accessed" match="any">
             <group delimiter=" ">
-              <text macro="contributors-short" suffix=", "/>
+              <text macro="contributors-short"/>
               <text macro="date-in-text"/>
             </group>
           </if>
@@ -728,29 +653,28 @@
       </group>
     </layout>
   </citation>
-  <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7" entry-spacing="0">
+  <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7" subsequent-author-substitute="&#8212;&#8212;&#8212;" entry-spacing="0">
     <sort>
-      <key variable="yomi"/>
       <key macro="contributors"/>
       <key variable="issued"/>
       <key variable="title"/>
     </sort>
     <layout suffix=".">
-      <group delimiter="">
+      <group delimiter=". ">
         <text macro="contributors"/>
         <text macro="date"/>
         <text macro="title"/>
       </group>
       <text macro="description"/>
       <text macro="secondary-contributors" prefix=". "/>
+      <text macro="container-title" prefix=". "/>
       <text macro="container-contributors"/>
-      <text macro="container-title" prefix=""/>
       <text macro="edition"/>
-      <text macro="issue"/>
       <text macro="locators-chapter"/>
       <text macro="collection-title-journal" prefix=", " suffix=", "/>
       <text macro="locators"/>
       <text macro="collection-title" prefix=". "/>
+      <text macro="issue"/>
       <text macro="locators-article"/>
       <text macro="access" prefix=". "/>
     </layout>
