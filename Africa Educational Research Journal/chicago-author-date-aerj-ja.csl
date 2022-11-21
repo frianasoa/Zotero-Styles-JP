@@ -100,16 +100,32 @@
   <macro name="container-contributors">
     <choose>
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
-        <group prefix=", " delimiter=", ">
-          <names variable="container-author" delimiter=", ">
-            <label form="verb" suffix=" "/>
-            <name and="text" delimiter=", "/>
-          </names>
-          <names variable="editor translator" delimiter=", ">
-            <label form="verb" suffix=" "/>
-            <name and="text" delimiter=", "/>
-          </names>
-        </group>
+        <choose>
+          <if variable="language">
+            <group prefix="" delimiter="">
+              <names variable="container-author" delimiter="・">
+                <label form="verb" suffix=" "/>
+                <name delimiter="・"/>
+              </names>
+              <names variable="editor translator" delimiter="・" suffix="編">
+                <name delimiter="・" sort-separator=", " delimiter-precedes-last="never"/>
+              </names>
+            </group>
+          </if>
+          <else>
+            <text value="In" suffix=" " prefix=". "/>
+            <group prefix=", " delimiter=", ">
+              <names variable="container-author" delimiter=", ">
+                <label form="verb" suffix=" "/>
+                <name and="text" delimiter=", "/>
+              </names>
+              <names variable="editor translator" delimiter=", ">
+                <label form="verb" suffix=" "/>
+                <name and="text" delimiter=", "/>
+              </names>
+            </group>
+          </else>
+        </choose>
       </if>
     </choose>
   </macro>
@@ -348,16 +364,30 @@
         <text variable="page" prefix=" "/>
       </else-if>
       <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
-        <group prefix=". " delimiter=". ">
-          <group>
-            <text term="volume" form="short" text-case="capitalize-first" suffix=" "/>
-            <number variable="volume" form="numeric"/>
-          </group>
-          <group>
-            <number variable="number-of-volumes" form="numeric"/>
-            <text term="volume" form="short" prefix=" " plural="true"/>
-          </group>
-        </group>
+        <choose>
+          <if variable="language">
+            <group prefix="" delimiter="">
+              <group>
+                <number variable="volume" form="numeric" prefix="（" suffix="）"/>
+              </group>
+              <group>
+                <number variable="number-of-volumes" form="numeric"/>
+              </group>
+            </group>
+          </if>
+          <else>
+            <group prefix=". " delimiter=". ">
+              <group>
+                <text term="volume" form="short" text-case="capitalize-first" suffix=" "/>
+                <number variable="volume" form="numeric"/>
+              </group>
+              <group>
+                <number variable="number-of-volumes" form="numeric"/>
+                <text term="volume" form="short" prefix=" " plural="true"/>
+              </group>
+            </group>
+          </else>
+        </choose>
       </else-if>
       <else-if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>

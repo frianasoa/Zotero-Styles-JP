@@ -33,6 +33,8 @@ class Chicago:
         self.setcontainertitle()
         self.locatorsarticle()
         self.locatorschapter()
+        self.locators()
+        self.containercontributors()
         
         #save
         self.save()
@@ -129,6 +131,33 @@ class Chicago:
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " (", "suffix": ")."})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})
     
+    def containercontributors(self):
+        cc = self.macros.get("container-contributors", None)
+        c = self.addcondition(cc, "z:choose/z:if[@type='chapter entry-dictionary entry-encyclopedia paper-conference']/z:group")
+        self.setattr(c["if"], "z:group", {"prefix":"", "delimiter":""})
+        self.setattr(c["if"], "z:group/z:names[@variable='container-author']", {"delimiter":"・"})
+        self.setattr(c["if"], "z:group/z:names[@variable='container-author']/z:name", {"and":None, "delimiter":"・"})
+        
+        self.setattr(c["if"], "z:group/z:names[@variable='editor translator']", {"delimiter":"・", "suffix": "編"})
+        self.setattr(c["if"], "z:group/z:names[@variable='editor translator']/z:name", {"and":None, "delimiter": "・", "sort-separator":", ", "delimiter-precedes-last":"never"})
+        self.delelement(c["if"], "z:group/z:names[@variable='editor translator']/z:label")
+        
+        self.render({"tag": "text", "attrib":{"value": "In", "suffix":" ", "prefix": ". "}}, c["else"], where=0)
+    
+    def getchild(self, parent, xpath):
+        return parent.xpath(xpath, namespaces=self.ns)[0]
+    
+    def locators(self):
+        l = self.macros.get("locators", None)
+        c = self.addcondition(l, "z:choose/z:else-if[@type='bill book graphic legal_case legislation motion_picture report song']/z:group")
+        self.setattr(c["if"], "z:group", {"prefix":"", "delimiter":""})
+        
+        self.delelement(c["if"], "z:group/z:group/z:text[@term='volume']")
+        self.setattr(c["if"], "z:group/z:group/z:number", {"prefix":"（", "suffix":"）"})
+        
+        # nextgroup = c["if"].xpath("z:group/z:group/z:number", namespaces=self.ns)
+        # self.render()
+        
     
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)
@@ -143,8 +172,7 @@ class Chicago:
         self.setattr(c["else"], "z:text", {"prefix": "", "suffix": "頁"})
         
         c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
-        
-    
+
     def setcontainertitle(self):
         # Remove container-prefix "in"
         ct = self.macros.get("container-title", None)
@@ -204,14 +232,16 @@ class Chicago:
             "else": elseel
         }
     
-    def render(self, d, parent, previous=None, after=None):
+    def render(self, d, parent, previous=None, after=None, where=None):
         tag = d.get("tag", None)
         attrib = d.get("attrib", {})
         text = d.get("text", None)
         children = d.get("children", [])
         element = None
         
-        if after is not None:
+        if where is not None:
+            index = where
+        elif after is not None:
             index = parent.getchildren().index(after)
         elif previous is not None:
             index = parent.getchildren().index(previous)+1
@@ -248,7 +278,7 @@ class Chicago:
         for key in attr:
             value = attr[key]
             if value is None:
-                self.delattr(elt, element, key)
+                self.delattr(parent, element, key)
             else:
                 elt.attrib[key] = value
     
