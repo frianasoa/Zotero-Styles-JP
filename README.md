@@ -6,9 +6,9 @@ These styles can be used if you write in English, Japanese or both. Due to limit
 I created these styles because I want to stick with Zotero. However, if you are in need for more control with multilingual citations and bibliography, please consider checking Juris-m (https://juris-m.github.io/).
 
 ## Africa Educational Research Journal
-In this folder, you will find the styles for the Africa Educational Research Journal, a journal of the Japan Society for Africa Educational Research. I have only set the bibliography and citation for book, book chapter, and journal article. \
+In this folder, you will find the (unofficial) styles for the Africa Educational Research Journal, a journal of the Japan Society for Africa Educational Research. I have only set the bibliography and citation for book, book chapter, and journal article. \
 Source: https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf \
-Page 139-140 \
+Page 139-140
 
 # Instructions
 ## Install
