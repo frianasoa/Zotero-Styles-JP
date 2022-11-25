@@ -19,8 +19,8 @@ Please check this link if you do not know how to install the file. \
 Install instructions: https://www.zotero.org/support/styles#alternative_installation_methods.
 
 ## Use
-* For each entry in Japanese, please add "name-kana:ひらがな" into the extra field (ひらがな： hiragana reading of the first author).
-* Enjoy adding citations and bibliography normally
+* For each entry in Japanese, please add "name-kana:ひらがな" into the extra field (ひらがな： hiragana reading of the first author). The style uses this information to format and sort Japanese entries.
+* Enjoy adding citations and bibliography normally.
 
 # Disclaimer
 I am just sharing the csl files I used for my own publications. This repository is not affiliated with the journal or the academic society. Always manually check the display before submitting. Anything not supported by the style should be edited by hand. I will put them in the todo list for the next version.
