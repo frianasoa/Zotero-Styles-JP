@@ -258,9 +258,9 @@ class Chicago:
         la = self.macros.get("locators-article", None)
         c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:if/z:text")
         self.setattr(c["if"], "z:text", {"prefix": "、", "suffix": "頁"})
-        self.setattr(c["else"], "z:text", {"prefix": "", "suffix": "頁"})
-        
+        self.setattr(c["else"], "z:text", {"prefix": ", ", "suffix": ""})
         c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
+        
 
     def setcontainertitle(self):
         # Remove container-prefix "in"

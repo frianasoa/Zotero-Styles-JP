@@ -526,7 +526,7 @@
                 <text variable="page" prefix="、" suffix="頁"/>
               </if>
               <else>
-                <text variable="page" prefix="" suffix="頁"/>
+                <text variable="page" prefix=", " suffix=""/>
               </else>
             </choose>
           </if>
