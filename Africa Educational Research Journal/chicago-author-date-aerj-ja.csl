@@ -289,11 +289,28 @@
         </choose>
       </if>
       <else-if type="bill book graphic legislation motion_picture song" match="any">
-        <text variable="title" text-case="title" font-style="italic"/>
-        <group prefix=" (" suffix=")" delimiter=" ">
-          <text term="version"/>
-          <text variable="version"/>
-        </group>
+        <choose>
+          <if variable="language">
+            <text variable="title" font-style="italic" prefix="『" suffix="』"/>
+          </if>
+          <else>
+            <text variable="title" text-case="title" font-style="italic"/>
+          </else>
+        </choose>
+        <choose>
+          <if variable="language">
+            <group prefix="（" suffix="）" delimiter=" ">
+              <text term="version"/>
+              <text variable="version"/>
+            </group>
+          </if>
+          <else>
+            <group prefix=" (" suffix=")" delimiter=" ">
+              <text term="version"/>
+              <text variable="version"/>
+            </group>
+          </else>
+        </choose>
       </else-if>
       <else-if variable="reviewed-author">
         <choose>
@@ -324,7 +341,14 @@
         <text variable="title"/>
       </else-if>
       <else>
-        <text variable="title" text-case="title" quotes="true"/>
+        <choose>
+          <if variable="language">
+            <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
+          </if>
+          <else>
+            <text variable="title" text-case="title" quotes="false"/>
+          </else>
+        </choose>
       </else>
     </choose>
   </macro>
@@ -362,34 +386,53 @@
     <choose>
       <if type="article-journal">
         <choose>
-          <if variable="volume">
-            <text variable="volume" prefix=" "/>
-            <group prefix=" (" suffix=")">
-              <choose>
-                <if variable="issue">
+          <if variable="language">
+            <choose>
+              <if variable="volume">
+                <text variable="volume" suffix="巻"/>
+              </if>
+              <else-if variable="issue">
+                <text variable="issue" suffix="号"/>
+              </else-if>
+              <else>
+                <date variable="issued">
+                  <date-part name="month"/>
+                </date>
+              </else>
+            </choose>
+          </if>
+          <else>
+            <choose>
+              <if variable="volume">
+                <text variable="volume" prefix=" "/>
+                <group prefix="(" suffix=")">
+                  <choose>
+                    <if variable="issue">
+                      <text variable="issue"/>
+                    </if>
+                    <else>
+                      <date variable="issued">
+                        <date-part name="month"/>
+                      </date>
+                    </else>
+                  </choose>
+                </group>
+              </if>
+              <else-if variable="issue">
+                <group delimiter=" " prefix=", ">
+                  <text term="issue" form="short"/>
                   <text variable="issue"/>
-                </if>
-                <else>
-                  <date variable="issued">
+                  <date variable="issued" prefix="(" suffix=")">
                     <date-part name="month"/>
                   </date>
-                </else>
-              </choose>
-            </group>
-          </if>
-          <else-if variable="issue">
-            <group delimiter=" " prefix=", ">
-              <text term="issue" form="short"/>
-              <text variable="issue"/>
-              <date variable="issued" prefix="(" suffix=")">
-                <date-part name="month"/>
-              </date>
-            </group>
-          </else-if>
-          <else>
-            <date variable="issued" prefix=", ">
-              <date-part name="month"/>
-            </date>
+                </group>
+              </else-if>
+              <else>
+                <date variable="issued" prefix=", ">
+                  <date-part name="month"/>
+                </date>
+              </else>
+            </choose>
           </else>
         </choose>
       </if>
@@ -407,6 +450,7 @@
               </group>
               <group>
                 <number variable="number-of-volumes" form="numeric"/>
+                <text term="volume" form="short" prefix=" " plural="true"/>
               </group>
             </group>
           </if>

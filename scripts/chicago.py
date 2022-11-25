@@ -19,7 +19,7 @@ class Chicago:
       
     def create(self):
         self.language()
-        self.title()
+        self.doctitle()
         self.id()
         self.contributor()
         self.summary()
@@ -37,6 +37,7 @@ class Chicago:
         self.containercontributors()
         self.contributors()
         self.contributorsshort()
+        self.title()
         
         #save
         self.save()
@@ -68,7 +69,7 @@ class Chicago:
         for summary in self.tree.findall('z:info/z:summary', self.ns):
             summary.text = summary.text+" - Edited for "+self.suffix["title"]
             
-    def title(self):
+    def doctitle(self):
         for title in self.tree.findall('z:info/z:title', self.ns):
             title.text = title.text+" - "+self.suffix["title"]
     
@@ -132,7 +133,27 @@ class Chicago:
         self.setattr(c["else"], "z:group", {"delimiter": ""})
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " (", "suffix": ")."})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})
+      
     
+    def title(self):
+        t = self.macros.get("title", None)
+        c1 = self.child(t, "z:choose/z:else-if[@type='bill book graphic legislation motion_picture song']")
+        
+        text = self.addcondition(c1, "z:text")
+        group = self.addcondition(c1, "z:group")
+        
+        self.setattr(text["if"], "z:text", {"text-case": None, "prefix": "『", "suffix": "』"})
+        
+        self.setattr(group["if"], "z:group", {
+            "prefix": "（", "suffix": "）"
+        })
+        
+        c2 = self.child(t, "z:choose/z:else")
+        text2 = self.addcondition(c2, "z:text")
+        self.setattr(text2["if"], "z:text", {"quotes":"false", "prefix": "「", "suffix": "」"})
+        
+        self.setattr(text2["else"], "z:text", {"quotes":"false"})
+        
     def contributorsshort(self):
         cs = self.macros.get("contributors-short", None)
         c = self.addcondition(cs, "z:names")
@@ -195,14 +216,36 @@ class Chicago:
     
     def locators(self):
         l = self.macros.get("locators", None)
+        aj = self.addcondition(l, "z:choose/z:if[@type='article-journal']/z:choose")
+        
+        self.setattr(aj["if"], "z:choose/z:if[@variable='volume']/z:text", {"prefix": None, "suffix": "巻"})
+        
+        self.delelement(aj["if"], "z:choose/z:if[@variable='volume']/z:group")
+        
+        issue = self.child(aj["if"], "z:choose/z:else-if[@variable='issue']")
+        
+        self.setattr(issue, "z:group/z:text[@variable='issue']", {"suffix":"号"})
+        
+        self.move(issue, "z:group/z:text[@variable='issue']", "z:group")
+        
+        self.delelement(issue, "z:group")
+        
+        other = self.child(aj["if"], "z:choose/z:else")
+        self.setattr(other, "z:date", {"prefix":None})
+        
+        self.setattr(aj["else"], "z:choose/z:if[@variable='volume']/z:group", {"prefix": "(", "suffix":")"})
+        
+        # bill book graphic legal_case legislation motion_picture report song
         c = self.addcondition(l, "z:choose/z:else-if[@type='bill book graphic legal_case legislation motion_picture report song']/z:group")
         self.setattr(c["if"], "z:group", {"prefix":"", "delimiter":""})
         
         self.delelement(c["if"], "z:group/z:group/z:text[@term='volume']")
         self.setattr(c["if"], "z:group/z:group/z:number", {"prefix":"（", "suffix":"）"})
         
-        # nextgroup = c["if"].xpath("z:group/z:group/z:number", namespaces=self.ns)
-        # self.render()
+        group = self.child(c["if"], "z:group/z:group/z:number[@variable='number-of-volumes']").getparent()
+        self.render({"tag": "text", "attrib": {"term": "volume", "form": "short", "prefix": " ", "plural": "true"}}, group)
+        
+        
         
     
     def locatorschapter(self):
@@ -352,7 +395,12 @@ class Chicago:
         if delparent:
             p.getparent().remove(p)
             
-            
+    def child(self, parent, path):
+        c = parent.xpath(path, namespaces=self.ns)
+        if len(c)>0:
+            return c[0]
+        else:
+            return None
     
     def delattr(self, parent, element, attr):
         element = parent.xpath(element, namespaces=self.ns)[0]
