@@ -114,14 +114,14 @@
           </if>
           <else>
             <text value="In" suffix=" " prefix=". "/>
-            <group prefix=", " delimiter=", ">
+            <group prefix=" " delimiter=", ">
               <names variable="container-author" delimiter=", ">
                 <label form="verb" suffix=" "/>
                 <name and="text" delimiter=", "/>
               </names>
               <names variable="editor translator" delimiter=", ">
-                <label form="verb" suffix=" "/>
-                <name and="text" delimiter=", "/>
+                <name and="symbol" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". "/>
+                <label form="short" prefix=" (" suffix="). "/>
               </names>
             </group>
           </else>
@@ -168,31 +168,66 @@
   </macro>
   <macro name="contributors">
     <group delimiter=". ">
-      <names variable="author">
-        <name and="text" name-as-sort-order="first" sort-separator=", " delimiter=", " delimiter-precedes-last="always"/>
-        <label form="short" prefix=", "/>
-        <substitute>
-          <names variable="editor"/>
-          <names variable="translator"/>
-          <names variable="director"/>
-          <text macro="substitute-title"/>
-          <text macro="title"/>
-        </substitute>
-      </names>
+      <choose>
+        <if variable="language">
+          <names variable="author">
+            <name name-as-sort-order="all" delimiter="・" delimiter-precedes-last="never"/>
+            <substitute>
+              <names variable="editor" suffix="編">
+                <name name-as-sort-order="all" delimiter="・" delimiter-precedes-last="never"/>
+              </names>
+              <names variable="translator"/>
+              <names variable="director"/>
+              <text macro="substitute-title"/>
+              <text macro="title"/>
+            </substitute>
+          </names>
+        </if>
+        <else>
+          <names variable="author">
+            <name and="symbol" name-as-sort-order="all" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". "/>
+            <label form="short" prefix=", "/>
+            <substitute>
+              <names variable="editor"/>
+              <names variable="translator"/>
+              <names variable="director"/>
+              <text macro="substitute-title"/>
+              <text macro="title"/>
+            </substitute>
+          </names>
+        </else>
+      </choose>
       <text macro="recipient"/>
     </group>
   </macro>
   <macro name="contributors-short">
-    <names variable="author">
-      <name form="short" and="text" delimiter=", " initialize-with=". "/>
-      <substitute>
-        <names variable="editor"/>
-        <names variable="translator"/>
-        <names variable="director"/>
-        <text macro="substitute-title"/>
-        <text macro="title"/>
-      </substitute>
-    </names>
+    <choose>
+      <if variable="language">
+        <names variable="author">
+          <name form="short" delimiter="・"/>
+          <substitute>
+            <names variable="editor"/>
+            <names variable="translator"/>
+            <names variable="director"/>
+            <text macro="substitute-title"/>
+            <text macro="title"/>
+          </substitute>
+        </names>
+      </if>
+      <else>
+        <names variable="author">
+          <name form="short" and="symbol" delimiter=", " initialize-with=". "/>
+          <et-al term="and others"/>
+          <substitute>
+            <names variable="editor"/>
+            <names variable="translator"/>
+            <names variable="director"/>
+            <text macro="substitute-title"/>
+            <text macro="title"/>
+          </substitute>
+        </names>
+      </else>
+    </choose>
   </macro>
   <macro name="interviewer">
     <names variable="interviewer" delimiter=", ">

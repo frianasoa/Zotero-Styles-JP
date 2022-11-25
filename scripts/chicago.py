@@ -35,6 +35,8 @@ class Chicago:
         self.locatorschapter()
         self.locators()
         self.containercontributors()
+        self.contributors()
+        self.contributorsshort()
         
         #save
         self.save()
@@ -131,9 +133,41 @@ class Chicago:
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " (", "suffix": ")."})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})
     
+    def contributorsshort(self):
+        cs = self.macros.get("contributors-short", None)
+        c = self.addcondition(cs, "z:names")
+        self.setattr(c["if"], "z:names/z:name", {"form":"short", "delimiter":"・", "and": None, "initialize-with": None})
+        
+        self.setattr(c["else"], "z:names/z:name", {"and":"symbol"})
+        
+        name = c["else"].xpath("z:names/z:name", namespaces=self.ns)[0]
+        
+        
+        self.render({"tag": "et-al", "attrib":{"term": "and others"}}, name.getparent(), name)
+        
+    def contributors(self):
+        c = self.macros.get("contributors", None)
+        v = self.addcondition(c, "z:group/z:names[@variable='author']")
+        
+        self.setattr(v["if"], "z:names/z:name", {
+            "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never", "and": None, "sort-separator":None
+        })
+        
+        editor = v["if"].xpath("z:names/z:substitute/z:names[@variable='editor']", namespaces=self.ns)[0]
+        self.setattr(editor, ".", {"suffix":"編"})
+        self.render({"tag": "name", "attrib": { "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never"}}, editor, where=0)
+        
+        self.setattr(v["else"], "z:names/z:name", {"and": "symbol", "name-as-sort-order": "all", "delimiter-precedes-last": "never", "initialize-with": ". "})
+        
+        self.delelement(v["if"], "z:names/z:label")
+        
+        c = v["if"].getparent().getparent().getparent()
+        self.move(c, "z:group/z:text", "z:group/choose")
+
     def containercontributors(self):
         cc = self.macros.get("container-contributors", None)
         c = self.addcondition(cc, "z:choose/z:if[@type='chapter entry-dictionary entry-encyclopedia paper-conference']/z:group")
+        
         self.setattr(c["if"], "z:group", {"prefix":"", "delimiter":""})
         self.setattr(c["if"], "z:group/z:names[@variable='container-author']", {"delimiter":"・"})
         self.setattr(c["if"], "z:group/z:names[@variable='container-author']/z:name", {"and":None, "delimiter":"・"})
@@ -141,6 +175,18 @@ class Chicago:
         self.setattr(c["if"], "z:group/z:names[@variable='editor translator']", {"delimiter":"・", "suffix": "編"})
         self.setattr(c["if"], "z:group/z:names[@variable='editor translator']/z:name", {"and":None, "delimiter": "・", "sort-separator":", ", "delimiter-precedes-last":"never"})
         self.delelement(c["if"], "z:group/z:names[@variable='editor translator']/z:label")
+        
+        self.setattr(c["else"], "z:group", {"prefix":" "})
+        self.move(c["else"], "z:group/z:names[@variable='editor translator']/z:label", "z:group/z:names[@variable='editor translator']/z:name")
+        
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {
+        "and":"symbol", "delimiter":", ", "sort-separator":", ", "delimiter-precedes-last": "never", "initialize-with":". "})
+        
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:label", {
+        "form": "short", "prefix": None, "suffix": None})
+        
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:label", {
+        "form": "short", "prefix": " (", "suffix":"). "})
         
         self.render({"tag": "text", "attrib":{"value": "In", "suffix":" ", "prefix": ". "}}, c["else"], where=0)
     
@@ -244,7 +290,7 @@ class Chicago:
         elif after is not None:
             index = parent.getchildren().index(after)
         elif previous is not None:
-            index = parent.getchildren().index(previous)+1
+            index = previous.getparent().getchildren().index(previous)+1
         else:
             try:
                 previous = parent.getchildren()[len(parent.getchildren())-1]
@@ -267,12 +313,29 @@ class Chicago:
                 self.render(child, element)
         return element
         
-    def move(self, parent, element, previous):
-        element = parent.xpath(element, namespaces=self.ns)[0]
-        previous = parent.xpath(previous, namespaces=self.ns)[0]
-        index = previous.getparent().getchildren().index(previous)+1
-        previous.getparent().insert(index, element)
-    
+    def move(self, parent, elementxpath, previousxpath):
+        element = parent.xpath(elementxpath, namespaces=self.ns)
+        previous = parent.xpath(previousxpath, namespaces=self.ns)
+        
+        if len(element)==0:
+            print("Element does not exist: "+elementxpath+" in ")
+            print(parent)
+            print(parent.getchildren())
+            print([x.getchildren() for x in parent.getchildren()])
+            
+        elif len(previous)==0:      
+            print("Element does not exist: "+previousxpath+"  in ")
+            print(parent)
+            print(parent.getchildren())
+            print([x.getchildren() for x in parent.getchildren()])
+            
+        else:
+            element = element[0]
+            previous = previous[0]
+            index = previous.getparent().getchildren().index(previous)+1
+            previous.getparent().insert(index, element)
+        
+        
     def setattr(self, parent, element, attr):
         elt = parent.xpath(element, namespaces=self.ns)[0]
         for key in attr:
