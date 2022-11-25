@@ -20,6 +20,7 @@ Install instructions: https://www.zotero.org/support/styles#alternative_installa
 
 ## Use
 * For each entry in Japanese, please add "name-kana:ひらがな" into the extra field (ひらがな： hiragana reading of the first author). The style uses this information to format and sort Japanese entries.
+* If the extra field already contains other information, please add a line break and write on the next line.
 * Enjoy adding citations and bibliography normally.
 
 # Disclaimer
