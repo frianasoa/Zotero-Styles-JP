@@ -101,7 +101,7 @@
     <choose>
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group prefix="" delimiter="">
               <names variable="container-author" delimiter="・">
                 <label form="verb" suffix=" "/>
@@ -169,7 +169,7 @@
   <macro name="contributors">
     <group delimiter=". ">
       <choose>
-        <if variable="language">
+        <if variable="name-kana">
           <names variable="author">
             <name name-as-sort-order="all" delimiter="・" delimiter-precedes-last="never"/>
             <substitute>
@@ -202,7 +202,7 @@
   </macro>
   <macro name="contributors-short">
     <choose>
-      <if variable="language">
+      <if variable="name-kana">
         <names variable="author">
           <name form="short" delimiter="・"/>
           <substitute>
@@ -290,7 +290,7 @@
       </if>
       <else-if type="bill book graphic legislation motion_picture song" match="any">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <text variable="title" font-style="italic" prefix="『" suffix="』"/>
           </if>
           <else>
@@ -298,7 +298,7 @@
           </else>
         </choose>
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group prefix="（" suffix="）" delimiter=" ">
               <text term="version"/>
               <text variable="version"/>
@@ -342,7 +342,7 @@
       </else-if>
       <else>
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
           </if>
           <else>
@@ -386,7 +386,7 @@
     <choose>
       <if type="article-journal">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <choose>
               <if variable="volume">
                 <text variable="volume" suffix="巻"/>
@@ -443,7 +443,7 @@
       </else-if>
       <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group prefix="" delimiter="">
               <group>
                 <number variable="volume" form="numeric" prefix="（" suffix="）"/>
@@ -486,7 +486,7 @@
         <choose>
           <if variable="page">
             <choose>
-              <if variable="language">
+              <if variable="name-kana">
                 <group prefix="、" suffix="頁">
                   <text variable="volume" suffix=":"/>
                   <text variable="page"/>
@@ -522,7 +522,7 @@
         <choose>
           <if variable="volume issue" match="any">
             <choose>
-              <if variable="language">
+              <if variable="name-kana">
                 <text variable="page" prefix="、" suffix="頁"/>
               </if>
               <else>
@@ -532,7 +532,7 @@
           </if>
           <else>
             <choose>
-              <if variable="language">
+              <if variable="name-kana">
                 <text variable="page" prefix=", "/>
               </if>
               <else>
@@ -587,7 +587,7 @@
       </if>
       <else-if type="legal_case" match="none">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group delimiter=" ">
               <choose>
                 <if type="post-weblog">
@@ -635,7 +635,7 @@
     <choose>
       <if variable="issued">
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group delimiter="">
               <date variable="original-date" form="text" date-parts="year" prefix="（" suffix="）"/>
               <date variable="issued" prefix="（" suffix="）">
@@ -801,7 +801,7 @@
       <else-if type="article-journal" match="any"/>
       <else>
         <choose>
-          <if variable="language">
+          <if variable="name-kana">
             <group prefix="" delimiter="">
               <choose>
                 <if type="thesis">

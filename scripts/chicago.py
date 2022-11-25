@@ -307,12 +307,15 @@ class Chicago:
         return m
     
     def addcondition(self, target, xpath):
+        """
+        If the entry contains a field name-kana
+        """
         element = target.xpath(xpath, namespaces=self.ns)[0]
         elementcopy = copy.deepcopy(element)
         parent = element.getparent()
         
         choose = self.render({"tag": "choose"}, parent)
-        ifel = self.render({"tag": "if", "attrib":{"variable": "language"}}, choose)
+        ifel = self.render({"tag": "if", "attrib":{"variable": "name-kana"}}, choose)
         elseel = self.render({"tag": "else"}, choose)
         ifel.insert(0, elementcopy)
         elseel.insert(0, element)
