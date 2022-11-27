@@ -24,4 +24,5 @@ Install instructions: https://www.zotero.org/support/styles#alternative_installa
 * Enjoy adding citations and bibliography normally.
 
 # Disclaimer
-I am just sharing the csl files I used for my own publications. This repository is not affiliated with the journal or the academic society. Always manually check the display before submitting. Anything not supported by the style should be edited by hand. I will put them in the todo list for the next version.
+I am just sharing the csl files I used for my own publications. This repository is not affiliated with the journal or the academic society. Always manually check the display before submitting. Anything not supported by the style should be edited by hand. I will put them in the todo list for the next version. \
+This style may change in the future, in a way that you may have to change the value of extra, should you plan to update to the latest version later. This is due to the change in availability of accepted syntax in the csl format.

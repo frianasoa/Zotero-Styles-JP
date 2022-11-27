@@ -849,7 +849,7 @@
   </citation>
   <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7" entry-spacing="0">
     <sort>
-      <key variable="yomi"/>
+      <key variable="name-kana"/>
       <key macro="contributors"/>
       <key variable="issued"/>
       <key variable="title"/>

@@ -63,7 +63,7 @@ class Chicago:
         
         parent = self.bibliography.xpath("z:sort", namespaces=self.ns)[0]
         after = self.bibliography.xpath("z:sort/z:key[@macro='contributors']", namespaces=self.ns)[0]
-        self.render({"tag":"key", "attrib":{"variable": "yomi"}}, parent, after=after)
+        self.render({"tag":"key", "attrib":{"variable": "name-kana"}}, parent, after=after)
     
     def summary(self):
         for summary in self.tree.findall('z:info/z:summary', self.ns):
