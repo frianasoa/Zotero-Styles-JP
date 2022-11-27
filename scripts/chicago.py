@@ -161,8 +161,11 @@ class Chicago:
         
         self.setattr(c["else"], "z:names/z:name", {"and":"symbol"})
         
-        name = c["else"].xpath("z:names/z:name", namespaces=self.ns)[0]
-        
+        names = c["else"].xpath("z:names/z:name", namespaces=self.ns)
+        if len(names)<=0:
+            return
+        else:
+            name = names[0]
         
         self.render({"tag": "et-al", "attrib":{"term": "and others"}}, name.getparent(), name)
         
@@ -174,7 +177,12 @@ class Chicago:
             "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never", "and": None, "sort-separator":None
         })
         
-        editor = v["if"].xpath("z:names/z:substitute/z:names[@variable='editor']", namespaces=self.ns)[0]
+        editors = v["if"].xpath("z:names/z:substitute/z:names[@variable='editor']", namespaces=self.ns)
+        if len(editors)<=0:
+            return
+        else:
+            editor = editors[0]
+        
         self.setattr(editor, ".", {"suffix":"編"})
         self.render({"tag": "name", "attrib": { "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never"}}, editor, where=0)
         
@@ -242,7 +250,12 @@ class Chicago:
         self.delelement(c["if"], "z:group/z:group/z:text[@term='volume']")
         self.setattr(c["if"], "z:group/z:group/z:number", {"prefix":"（", "suffix":"）"})
         
-        group = self.child(c["if"], "z:group/z:group/z:number[@variable='number-of-volumes']").getparent()
+        number = self.child(c["if"], "z:group/z:group/z:number[@variable='number-of-volumes']")
+        if number is None:
+            return
+        group = number.getparent()
+        
+        
         self.render({"tag": "text", "attrib": {"term": "volume", "form": "short", "prefix": " ", "plural": "true"}}, group)
         
         
@@ -271,7 +284,11 @@ class Chicago:
         c = self.addcondition(ct, "z:choose/z:else-if[@type='legal_case' and @match='none']/z:group")
         
         # for japanese
-        jaja = c["if"].xpath("z:group/z:text", namespaces=self.ns)[0]
+        jaja = c["if"].xpath("z:group/z:text", namespaces=self.ns)
+        if len(jaja)<=0:
+            return
+        else:
+            jaja = jaja[0]
         self.setattr(jaja, ".", {"font-style": None, "prefix":"『", "suffix": "』"})
         
         group = jaja.getparent()
@@ -310,7 +327,19 @@ class Chicago:
         """
         If the entry contains a field name-kana
         """
-        element = target.xpath(xpath, namespaces=self.ns)[0]
+        element = target.xpath(xpath, namespaces=self.ns)
+        
+        if len(element)<=0:
+            print("Not found")
+            print(target)
+            print(xpath)
+            return {
+                "if": SubElement(self.root, "condition-error"),
+                "else": SubElement(self.root, "condition-error")
+            }
+        else:
+            element = element[0]
+        
         elementcopy = copy.deepcopy(element)
         parent = element.getparent()
         
@@ -360,6 +389,8 @@ class Chicago:
         return element
         
     def move(self, parent, elementxpath, previousxpath):
+        if parent is None:
+            return
         element = parent.xpath(elementxpath, namespaces=self.ns)
         previous = parent.xpath(previousxpath, namespaces=self.ns)
         
@@ -383,7 +414,14 @@ class Chicago:
         
         
     def setattr(self, parent, element, attr):
-        elt = parent.xpath(element, namespaces=self.ns)[0]
+        if parent is None:
+            return
+        
+        elt = parent.xpath(element, namespaces=self.ns)
+        if len(elt)<=0:
+            return
+        else:
+            elt = elt[0]
         for key in attr:
             value = attr[key]
             if value is None:
@@ -392,11 +430,18 @@ class Chicago:
                 elt.attrib[key] = value
     
     def delelement(self, parent, xpath, delparent=False):
+        if parent is None:
+            return
         elements = parent.xpath(xpath, namespaces=self.ns)
-        p = elements[0].getparent()
-        [x.getparent().remove(x) for x in elements]
-        if delparent:
-            p.getparent().remove(p)
+        if len(elements)>0:
+            p = elements[0].getparent()
+            [x.getparent().remove(x) for x in elements]
+            if delparent:
+                p.getparent().remove(p)
+        else:
+            print("Not found!")
+            print(parent)
+            print(xpath)
             
     def child(self, parent, path):
         c = parent.xpath(path, namespaces=self.ns)
