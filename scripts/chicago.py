@@ -52,7 +52,8 @@ class Chicago:
         })
         
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
-    
+        self.setattr(self.citation, "z:layout", {"prefix": " (", "suffix": ")"})
+        
     def setbiblio(self):
         self.move(self.bibliography, "z:layout/z:text[@macro='issue']", "z:layout/z:text[@macro='edition']")
         self.move(self.bibliography, "z:layout/z:text[@macro='container-title']", "z:layout/z:text[@macro='container-contributors']")
@@ -352,6 +353,30 @@ class Chicago:
             "if": ifel,
             "else": elseel
         }
+        
+    def splitlocales(self, target, xpath, locales):
+        element = target.xpath(xpath, namespaces=self.ns)
+        
+        if len(element)<=0:
+            print("Not found")
+            print(target)
+            print(xpath)
+            return {
+                "if": SubElement(self.root, "condition-error"),
+                "else": SubElement(self.root, "condition-error")
+            }
+        else:
+            element = element[0]
+        
+        r = {"default": element}
+        
+        for l in locales:
+            elementcopy = copy.deepcopy(element)
+            self.setattr(elementcopy, ".", {"locale": l})
+            parent = element.getparent()
+            parent.insert(0, elementcopy)
+            r[l] = elementcopy
+        return r
     
     def render(self, d, parent, previous=None, after=None, where=None):
         tag = d.get("tag", None)
