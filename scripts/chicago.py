@@ -4,6 +4,7 @@ from lxml.etree import SubElement, QName
 
 class Chicago:
     def __init__(self, input, journal, suffix):
+        self.conds = {}
         self.ns = {"z": "http://purl.org/net/xbiblio/csl"}
         self.input = input
         self.journal = journal
@@ -16,8 +17,16 @@ class Chicago:
         self.locales = self.getlocales()
         self.citation = self.tree.findall('z:citation', self.ns)[0]
         self.bibliography = self.tree.findall('z:bibliography', self.ns)[0]
-      
+    
+    def custom(self):
+        pass
+    
     def create(self):
+        self.create_()
+        self.custom()
+        self.save()
+        
+    def create_(self):
         self.language()
         self.doctitle()
         self.id()
@@ -38,9 +47,6 @@ class Chicago:
         self.contributors()
         self.contributorsshort()
         self.title()
-        
-        #save
-        self.save()
     
     
     def setcitation(self):
@@ -51,6 +57,9 @@ class Chicago:
             "disambiguate-add-givenname":"false",
         })
         
+        """
+        Add comma after name
+        """
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
         self.setattr(self.citation, "z:layout", {"prefix": " (", "suffix": ")"})
         
@@ -124,6 +133,7 @@ class Chicago:
     def setdate(self):
         date = self.macros.get("date", None)
         c = self.addcondition(date, "z:choose/z:if[@variable='issued']/z:group")
+        self.conds["date"] = c
         
         # if Japanese
         self.setattr(c["if"], "z:group", {"delimiter": ""}) 
@@ -150,10 +160,10 @@ class Chicago:
         })
         
         c2 = self.child(t, "z:choose/z:else")
-        text2 = self.addcondition(c2, "z:text")
-        self.setattr(text2["if"], "z:text", {"quotes":"false", "prefix": "「", "suffix": "」"})
-        
-        self.setattr(text2["else"], "z:text", {"quotes":"false"})
+        t = self.addcondition(c2, "z:text")
+        self.setattr(t["if"], "z:text", {"quotes":"false", "prefix": "「", "suffix": "」"})
+        self.setattr(t["else"], "z:text", {"quotes":"false"})
+        self.conds["title"] = t
         
     def contributorsshort(self):
         cs = self.macros.get("contributors-short", None)
@@ -226,7 +236,7 @@ class Chicago:
     def locators(self):
         l = self.macros.get("locators", None)
         aj = self.addcondition(l, "z:choose/z:if[@type='article-journal']/z:choose")
-        
+        self.conds["locators"] = aj
         self.setattr(aj["if"], "z:choose/z:if[@variable='volume']/z:text", {"prefix": None, "suffix": "巻"})
         
         self.delelement(aj["if"], "z:choose/z:if[@variable='volume']/z:group")
@@ -259,9 +269,6 @@ class Chicago:
         
         self.render({"tag": "text", "attrib": {"term": "volume", "form": "short", "prefix": " ", "plural": "true"}}, group)
         
-        
-        
-    
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)
         c = self.addcondition(lc, "z:choose/z:if/z:choose/z:if/z:group")
@@ -273,7 +280,8 @@ class Chicago:
         c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:if/z:text")
         self.setattr(c["if"], "z:text", {"prefix": "、", "suffix": "頁"})
         self.setattr(c["else"], "z:text", {"prefix": ", ", "suffix": ""})
-        c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
+        d = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
+        self.conds["locators-article"] = c
         
 
     def setcontainertitle(self):
@@ -312,7 +320,8 @@ class Chicago:
         # other than journal journal
         jaelseelse = copy.deepcopy(jaelse)
         self.setattr(jaelseelse, ".", {"prefix":None, "suffix": None})
-        elseel.insert(0, jaelseelse)        
+        elseel.insert(0, jaelseelse)      
+        self.conds["container-title"] = c        
     
     def getmacros(self):
         m = self.tree.findall('z:macro', self.ns)

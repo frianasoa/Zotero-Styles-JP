@@ -10,6 +10,11 @@ In this folder, you will find the (unofficial) styles for the Africa Educational
 Source: https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf \
 Page 139-140
 
+## Journal of International Development Studies
+In this folder, you will find the (unofficial) styles for the Journal of International Development Studies. I have only set the bibliography and citation for book, book chapter, and journal article. \
+Source (en): https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view \
+Source (ja): https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view (pp. 195-197)
+
 # Instructions
 ## Install
 * Head to the release page: https://github.com/frianasoa/Zotero-Styles-JP/releases/
