@@ -34,5 +34,14 @@ class Jids(Chicago):
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " ", "suffix": ". "})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " ", "suffix": ". "})
         
-    
+        # Bibliography author
+        c = self.conds["contributors"]
+        self.setattr(c["else"], "z:names", {"suffix": ". "})
+        self.setattr(c["else"], "z:names/z:name", {"initialize": "false", "and": "text"})
+        self.setattr(c["else"], "z:names/z:label", {"form": None})
+        
+        # remove dot before "In"
+        c = self.conds["container-contributors"]
+        self.setattr(c["else"], "text", {"prefix": " "})
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": "all"})
     

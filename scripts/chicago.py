@@ -39,6 +39,7 @@ class Chicago:
         # macros
         self.setissue()
         self.setdate()
+        self.access()
         self.setcontainertitle()
         self.locatorsarticle()
         self.locatorschapter()
@@ -106,13 +107,13 @@ class Chicago:
         
         locale = {
             "tag":"locale", 
-            "attrib": {self.q("lang"): "ja"}, 
+            "attrib": {self.q("lang"): "en"}, 
             "children": [
                 {
                     "tag": "terms", 
                     "children": 
                     [
-                        {"tag": "term", "attrib": {"name": "and others"}, "text": "et al."},
+                        {"tag": "term", "attrib": {"name": "and others"}, "text": "ほか"},
                         {"tag": "term", "attrib": {"name": "editor", "form":"short"}, "children": [
                             {"tag": "single", "text": "ed."},
                             {"tag": "multiple", "text": "eds."},
@@ -122,7 +123,7 @@ class Chicago:
         self.render(locale, self.root, self.info)
     
     def language(self):
-        self.root.attrib["default-locale"] = "ja-JA"
+        self.root.attrib["default-locale"] = "en-US"
     
     def setissue(self):
         issue = self.macros.get("issue", None)
@@ -172,7 +173,7 @@ class Chicago:
         
         self.setattr(c["else"], "z:names/z:name", {"and":"symbol"})
         
-        names = c["else"].xpath("z:names/z:name", namespaces=self.ns)
+        names = c["if"].xpath("z:names/z:name", namespaces=self.ns)
         if len(names)<=0:
             return
         else:
@@ -203,6 +204,7 @@ class Chicago:
         
         c = v["if"].getparent().getparent().getparent()
         self.move(c, "z:group/z:text", "z:group/choose")
+        self.conds["contributors"] = v
 
     def containercontributors(self):
         cc = self.macros.get("container-contributors", None)
@@ -229,6 +231,7 @@ class Chicago:
         "form": "short", "prefix": " (", "suffix":"). "})
         
         self.render({"tag": "text", "attrib":{"value": "In", "suffix":" ", "prefix": ". "}}, c["else"], where=0)
+        self.conds["container-contributors"] = c
     
     def getchild(self, parent, xpath):
         return parent.xpath(xpath, namespaces=self.ns)[0]
@@ -282,8 +285,29 @@ class Chicago:
         self.setattr(c["else"], "z:text", {"prefix": ", ", "suffix": ""})
         d = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
         self.conds["locators-article"] = c
+    
+    def access(self):
+        a = self.macros.get("access", None)
+        self.setattr(a, "z:group", {"delimiter": " "})
+        c = self.addcondition(a, "z:group/z:choose[4]")
+        self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"suffix": " "})
+        self.render({"tag": "date", "attrib": {"variable": "accessed", "prefix": " (", "suffix": ")", "form":"text"}}, c["else"], path="z:choose/z:if/z:choose/z:else")
         
-
+        # Japanese
+        self.setattr(c["if"], "z:choose/z:if/z:choose/z:else/z:text", {"suffix": " "})
+        self.render(
+            {
+                "tag": "date", "attrib": {"variable": "accessed", "prefix": "（", "suffix": "）"},
+                "children": [
+                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"year", "suffix": "年"}},
+                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"month", "suffix": "月"}},
+                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"day", "suffix": "日"}}
+                ]
+            },
+            c["if"], path="z:choose/z:if/z:choose/z:else")
+        #remove date
+        self.delelement(a, "z:group/z:choose[2]")
+        
     def setcontainertitle(self):
         # Remove container-prefix "in"
         ct = self.macros.get("container-title", None)
@@ -321,8 +345,13 @@ class Chicago:
         jaelseelse = copy.deepcopy(jaelse)
         self.setattr(jaelseelse, ".", {"prefix":None, "suffix": None})
         elseel.insert(0, jaelseelse)      
-        self.conds["container-title"] = c        
-    
+        self.conds["container-title"] = c 
+        
+        # for webpage
+        cwp = self.addcondition(ct, "z:choose/z:if[@type='webpage']/z:text")
+        self.setattr(cwp["else"], "z:text", {"prefix": " "})
+        self.conds["container-title-webpage"] = cwp
+        
     def getmacros(self):
         m = self.tree.findall('z:macro', self.ns)
         m = {x.attrib["name"]:x for x in m}
@@ -387,7 +416,10 @@ class Chicago:
             r[l] = elementcopy
         return r
     
-    def render(self, d, parent, previous=None, after=None, where=None):
+    def render(self, d, parent, previous=None, after=None, where=None, path=None):
+        if path is not None:
+            parent = self.child(parent, path)
+            
         tag = d.get("tag", None)
         attrib = d.get("attrib", {})
         text = d.get("text", None)
