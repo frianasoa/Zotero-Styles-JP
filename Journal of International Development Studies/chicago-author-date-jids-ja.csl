@@ -102,7 +102,7 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
           <if variable="name-kana">
-            <group prefix="" delimiter="">
+            <group prefix="、" delimiter="" suffix="、">
               <names variable="container-author" delimiter="・">
                 <label form="verb" suffix=" "/>
                 <name delimiter="・"/>
@@ -285,10 +285,10 @@
             <if type="legal_case" match="none">
               <choose>
                 <if variable="DOI">
-                  <text variable="DOI" prefix="https://doi.org/"/>
+                  <text variable="DOI" prefix=". "/>
                 </if>
                 <else>
-                  <text variable="URL" suffix=" "/>
+                  <text variable="URL" suffix=" " prefix=". "/>
                   <date variable="accessed" prefix=" (" suffix=")" form="text"/>
                 </else>
               </choose>
@@ -406,52 +406,58 @@
       <if type="article-journal">
         <choose>
           <if variable="name-kana">
-            <choose>
-              <if variable="volume">
-                <text variable="volume" suffix="巻"/>
-              </if>
-              <else-if variable="issue">
-                <text variable="issue" suffix="号"/>
-              </else-if>
-              <else>
-                <date variable="issued">
-                  <date-part name="month"/>
-                </date>
-              </else>
-            </choose>
-          </if>
-          <else>
-            <choose>
-              <if variable="volume">
-                <text variable="volume" prefix=" Vol. "/>
-                <group>
-                  <choose>
-                    <if variable="issue">
-                      <text variable="issue" prefix=", No. "/>
-                    </if>
-                    <else>
-                      <date variable="issued" prefix=", (" suffix=")">
-                        <date-part name="month"/>
-                      </date>
-                    </else>
-                  </choose>
-                </group>
-              </if>
-              <else-if variable="issue">
-                <group delimiter=" " prefix=", ">
-                  <text term="issue" form="short"/>
-                  <text variable="issue"/>
-                  <date variable="issued" prefix="(" suffix=")">
+            <group delimiter="、">
+              <choose>
+                <if variable="volume">
+                  <text variable="volume" suffix="巻" prefix="第"/>
+                </if>
+              </choose>
+              <choose>
+                <if variable="issue">
+                  <text variable="issue" suffix="号" prefix="第"/>
+                </if>
+                <else>
+                  <date variable="issued" prefix=", ">
                     <date-part name="month"/>
                   </date>
-                </group>
-              </else-if>
-              <else>
-                <date variable="issued" prefix=", ">
-                  <date-part name="month"/>
-                </date>
-              </else>
-            </choose>
+                </else>
+              </choose>
+            </group>
+          </if>
+          <else>
+            <group>
+              <choose>
+                <if variable="volume">
+                  <text variable="volume" prefix=" Vol. "/>
+                  <group>
+                    <choose>
+                      <if variable="issue">
+                        <text variable="issue" prefix=", No. "/>
+                      </if>
+                      <else>
+                        <date variable="issued" prefix=", (" suffix=")">
+                          <date-part name="month"/>
+                        </date>
+                      </else>
+                    </choose>
+                  </group>
+                </if>
+                <else-if variable="issue">
+                  <group delimiter=" " prefix=", ">
+                    <text term="issue" form="short"/>
+                    <text variable="issue"/>
+                    <date variable="issued" prefix="(" suffix=")">
+                      <date-part name="month"/>
+                    </date>
+                  </group>
+                </else-if>
+                <else>
+                  <date variable="issued" prefix=", ">
+                    <date-part name="month"/>
+                  </date>
+                </else>
+              </choose>
+            </group>
           </else>
         </choose>
       </if>
@@ -604,7 +610,7 @@
       <if type="webpage">
         <choose>
           <if variable="name-kana">
-            <text variable="container-title" text-case="title"/>
+            <text variable="container-title" text-case="title" suffix="。" prefix="、"/>
           </if>
           <else>
             <text variable="container-title" text-case="title" prefix=" "/>
@@ -622,7 +628,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
+                  <text variable="container-title" text-case="title" prefix="、『" suffix="』"/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
@@ -652,10 +658,20 @@
     </choose>
   </macro>
   <macro name="publisher">
-    <group delimiter=": ">
-      <text variable="publisher-place"/>
-      <text variable="publisher"/>
-    </group>
+    <choose>
+      <if variable="name-kana">
+        <group delimiter=": " prefix="、">
+          <text variable="publisher-place"/>
+          <text variable="publisher"/>
+        </group>
+      </if>
+      <else>
+        <group delimiter=": ">
+          <text variable="publisher-place"/>
+          <text variable="publisher"/>
+        </group>
+      </else>
+    </choose>
   </macro>
   <macro name="date">
     <choose>
@@ -663,8 +679,8 @@
         <choose>
           <if variable="name-kana">
             <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix="（" suffix="）"/>
-              <date variable="issued" prefix="（" suffix="）">
+              <date variable="original-date" form="text" date-parts="year" prefix="、" suffix="、"/>
+              <date variable="issued" prefix="、" suffix="、">
                 <date-part name="year"/>
               </date>
             </group>
@@ -880,7 +896,7 @@
       <key variable="issued"/>
       <key variable="title"/>
     </sort>
-    <layout suffix=".">
+    <layout>
       <group delimiter="">
         <text macro="contributors"/>
         <text macro="date"/>
@@ -897,7 +913,15 @@
       <text macro="locators"/>
       <text macro="collection-title" prefix=". "/>
       <text macro="locators-article"/>
-      <text macro="access" prefix=". "/>
+      <text macro="access"/>
+      <choose>
+        <if variable="name-kana">
+          <text value="。"/>
+        </if>
+        <else>
+          <text value="."/>
+        </else>
+      </choose>
     </layout>
   </bibliography>
 </style>

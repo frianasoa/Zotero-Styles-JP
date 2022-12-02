@@ -47,6 +47,7 @@ class Chicago:
         self.containercontributors()
         self.contributors()
         self.contributorsshort()
+        self.publisher()
         self.title()
     
     
@@ -166,6 +167,11 @@ class Chicago:
         self.setattr(t["else"], "z:text", {"quotes":"false"})
         self.conds["title"] = t
         
+    def publisher(self):
+        p = self.macros.get("publisher", None)
+        c = self.addcondition(p, "z:group")
+        self.conds["publisher"] = c
+        
     def contributorsshort(self):
         cs = self.macros.get("contributors-short", None)
         c = self.addcondition(cs, "z:names")
@@ -238,19 +244,35 @@ class Chicago:
     
     def locators(self):
         l = self.macros.get("locators", None)
-        aj = self.addcondition(l, "z:choose/z:if[@type='article-journal']/z:choose")
+        group = self.render({"tag":"group"}, l, path="z:choose/z:if[@type='article-journal']")
+        group.insert(0, self.child(l, "z:choose/z:if[@type='article-journal']/z:choose"))
+        
+        aj = self.addcondition(l, "z:choose/z:if[@type='article-journal']/group")
         self.conds["locators"] = aj
-        self.setattr(aj["if"], "z:choose/z:if[@variable='volume']/z:text", {"prefix": None, "suffix": "巻"})
         
-        self.delelement(aj["if"], "z:choose/z:if[@variable='volume']/z:group")
+        self.setattr(aj["if"], "group/z:choose/z:if[@variable='volume']/z:text", {"prefix": None, "suffix": "巻"})
         
-        issue = self.child(aj["if"], "z:choose/z:else-if[@variable='issue']")
+        self.delelement(aj["if"], "group/z:choose/z:if[@variable='volume']/z:group")
+        
+        # change issue tag from else-if to if
+        self.child(aj["if"], "group/z:choose/z:else-if[@variable='issue']").tag = "if"
+        
+        issue = self.child(aj["if"], "group/z:choose/if[@variable='issue']")
+        issued = self.child(aj["if"], "group/z:choose/z:else")
         
         self.setattr(issue, "z:group/z:text[@variable='issue']", {"suffix":"号"})
         
         self.move(issue, "z:group/z:text[@variable='issue']", "z:group")
         
         self.delelement(issue, "z:group")
+        
+        # add new choose
+        newchoose = self.render({"tag": "choose"}, aj["if"])
+        newchoose.insert(0, issue)
+        newchoose.insert(1, issued)
+        
+        # add to group
+        self.child(newchoose.getparent(), "group").insert(1, newchoose)
         
         other = self.child(aj["if"], "z:choose/z:else")
         self.setattr(other, "z:date", {"prefix":None})
@@ -307,6 +329,7 @@ class Chicago:
             c["if"], path="z:choose/z:if/z:choose/z:else")
         #remove date
         self.delelement(a, "z:group/z:choose[2]")
+        self.conds["access"] = c
         
     def setcontainertitle(self):
         # Remove container-prefix "in"
@@ -349,6 +372,7 @@ class Chicago:
         
         # for webpage
         cwp = self.addcondition(ct, "z:choose/z:if[@type='webpage']/z:text")
+        self.setattr(cwp["if"], "z:text", {"suffix": "、", "prefix": "、"})
         self.setattr(cwp["else"], "z:text", {"prefix": " "})
         self.conds["container-title-webpage"] = cwp
         

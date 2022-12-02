@@ -14,12 +14,34 @@ class Jids(Chicago):
         
         # Issue number
         aj = self.conds["locators"]
-        self.setattr(aj["else"], "z:choose/z:if[@variable='volume']/z:group/z:choose/z:if[@variable='issue']/z:text", {"prefix": ", No. ", "suffix": None})
-        self.setattr(aj["else"], "z:choose/z:if[@variable='volume']/z:group/z:choose/z:else/z:date", {"prefix": ", (", "suffix": ")"})
+        self.setattr(aj["else"], "group/z:choose/z:if[@variable='volume']/z:group/z:choose/z:if[@variable='issue']/z:text", {"prefix": ", No. ", "suffix": None})
+        self.setattr(aj["else"], "group/z:choose/z:if[@variable='volume']/z:group/z:choose/z:else/z:date", {"prefix": ", (", "suffix": ")"})
         
+        # Issue number [ja]
+        self.setattr(aj["if"], "group/z:choose/z:if[@variable='volume']/z:text", {"prefix": "第", "suffix": "巻"})
+        self.setattr(aj["if"], "group/choose/if/z:text", {"prefix": "第", "suffix": "号"})
+        self.setattr(aj["if"], "group", {"delimiter": "、"})
+        
+        
+        # Japanese dot at the end [ja & en]
+        #remove general suffix
+        self.setattr(self.bibliography, "z:layout", {"suffix": None})
+        text = self.render({"tag": "text"}, self.bibliography, path="z:layout")
+        c = self.addcondition(text, ".")
+        self.setattr(c["if"], "text", {"value": "。"})
+        self.setattr(c["else"], "text", {"value": "."})
+        
+        # remove dot prefix in access
+        self.setattr(self.bibliography, "z:layout/z:text[@macro='access']", {"prefix": None})
+        
+        # add space in front of URL
+        c = self.conds["access"]
+        self.setattr(c["else"], "z:choose/z:if/z:choose/z:if/z:text", {"prefix":". "})
+        self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"prefix":". "})
+
         # Volume
-        self.setattr(aj["else"], "z:choose/z:if[@variable='volume']/z:text[@variable='volume']", {"prefix": " Vol. ", "suffix": None})
-        self.setattr(aj["else"], "z:choose/z:if[@variable='volume']/z:group", {"prefix": None, "suffix": None})
+        self.setattr(aj["else"], "group/z:choose/z:if[@variable='volume']/z:text[@variable='volume']", {"prefix": " Vol. ", "suffix": None})
+        self.setattr(aj["else"], "group/z:choose/z:if[@variable='volume']/z:group", {"prefix": None, "suffix": None})
         
         # Title
         t = self.conds["title"] 
@@ -29,10 +51,23 @@ class Jids(Chicago):
         t = self.conds["container-title"]
         self.setattr(t["else"], "z:group/choose/if/z:text", {"prefix":" ", "suffix":". "})
         
+        # webpage container title [ja]
+        ctw = self.conds["container-title-webpage"]
+        self.setattr(ctw["if"], "z:text", {"prefix":"、", "suffix":"。"})
+        
+        
+        # Journal name (Add comma in front) [ja]
+        t = self.conds["container-title"]
+        self.setattr(t["if"], "z:group/choose/if/z:text", {"prefix":"、『"})
+        
         # Date no parentheses
         c = self.conds["date"]
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " ", "suffix": ". "})
         self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " ", "suffix": ". "})
+        
+        # Date with comma [ja]
+        self.setattr(c["if"], "z:group/z:date[@variable='original-date']", {"prefix": "、", "suffix": "、"})
+        self.setattr(c["if"], "z:group/z:date[@variable='issued']", {"prefix": "、", "suffix": "、"})
         
         # Bibliography author
         c = self.conds["contributors"]
@@ -44,4 +79,10 @@ class Jids(Chicago):
         c = self.conds["container-contributors"]
         self.setattr(c["else"], "text", {"prefix": " "})
         self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": "all"})
-    
+        
+        # add 、 in front of contributors [ja]
+        self.setattr(c["if"], "z:group", {"prefix": "、", "suffix": "、"})
+        
+        # add 、 in front of publisher [ja]
+        c = self.conds["publisher"]
+        self.setattr(c["if"], "z:group", {"prefix": "、"})
