@@ -6,12 +6,12 @@ These styles can be used if you write in English, Japanese or both. Due to limit
 I created these styles because I want to stick with Zotero. However, if you are in need for more control with multilingual citations and bibliography, please consider checking Juris-m (https://juris-m.github.io/).
 
 ## Africa Educational Research Journal
-In this folder, you will find the (unofficial) styles for the Africa Educational Research Journal, a journal of the Japan Society for Africa Educational Research. I have only set the bibliography and citation for book, book chapter, and journal article. \
+In this folder, you will find the (unofficial) styles for the Africa Educational Research Journal, a journal of the Japan Society for Africa Educational Research. I have only set the bibliography and citation for book, book chapter, and journal article following the note to contributors. I have aditionally added style for web page. \
 Source: https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf \
 Page 139-140
 
 ## Journal of International Development Studies
-In this folder, you will find the (unofficial) styles for the Journal of International Development Studies. I have only set the bibliography and citation for book, book chapter, and journal article. \
+In this folder, you will find the (unofficial) styles for the Journal of International Development Studies. I have only set the bibliography and citation for book, book chapter, journal article, and web page. \
 Source (en): https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view \
 Source (ja): https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view (pp. 195-197)
 
@@ -24,7 +24,7 @@ Please check this link if you do not know how to install the file. \
 Install instructions: https://www.zotero.org/support/styles#alternative_installation_methods.
 
 ## Use
-* For each entry in Japanese, please add "name-kana:ひらがな" into the extra field (ひらがな： hiragana reading of the first author). The style uses this information to format and sort Japanese entries.
+* For each entry in Japanese, please add "name-kana:ひらがな" into the extra field (ひらがな： hiragana reading of the first author's name). The style uses this information to format and sort Japanese entries.
 * If the extra field already contains other information, please add a line break and write on the next line.
 * Enjoy adding citations and bibliography normally.
 

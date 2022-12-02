@@ -54,8 +54,7 @@ class Jids(Chicago):
         # webpage container title [ja]
         ctw = self.conds["container-title-webpage"]
         self.setattr(ctw["if"], "z:text", {"prefix":"、", "suffix":"。"})
-        
-        
+
         # Journal name (Add comma in front) [ja]
         t = self.conds["container-title"]
         self.setattr(t["if"], "z:group/choose/if/z:text", {"prefix":"、『"})

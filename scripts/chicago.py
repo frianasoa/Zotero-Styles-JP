@@ -1,4 +1,4 @@
-import os, copy
+import os, copy, datetime, pytz
 from lxml import etree as ET
 from lxml.etree import SubElement, QName
 
@@ -35,6 +35,7 @@ class Chicago:
         self.locale()
         self.setbiblio()
         self.setcitation()
+        self.updated()
         
         # macros
         self.setissue()
@@ -49,7 +50,10 @@ class Chicago:
         self.contributorsshort()
         self.publisher()
         self.title()
-    
+
+    def updated(self):  
+        up = self.child(self.info, "z:updated")
+        up.text = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
     
     def setcitation(self):
         self.setattr(self.citation, ".", {
