@@ -29,7 +29,7 @@ class Kyosei(Chicago):
         
         # Title
         t = self.conds["title"] 
-        self.setattr(t["else"], "z:text", {"quotes":"false", "prefix": "“", "suffix":"”"})
+        self.setattr(t["else"], "z:text", {"quotes":"false", "prefix": None, "suffix": ". "})
         
         # Journal name
         t = self.conds["container-title"]
@@ -61,12 +61,12 @@ class Kyosei(Chicago):
         
         self.setattr(c["else"], "z:names", {"suffix": ". "})
         self.setattr(c["else"], "z:names/z:name", {"initialize": "false", "and": "text"})
-        self.setattr(c["else"], "z:names/z:label", {"form": None})
+        self.setattr(c["else"], "z:names/z:label", {"prefix": " (", "suffix":")", "form": "short"})
         
         # remove dot before "In"
         c = self.conds["container-contributors"]
         self.setattr(c["else"], "text", {"prefix": " "})
-        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": "all"})
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": None})
         
         # add 、 in front of contributors [ja]
         # self.setattr(c["if"], "z:group", {"prefix": "、", "suffix": "、"})
@@ -83,11 +83,14 @@ class Kyosei(Chicago):
     
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)
-        self.setattr(lc, "z:choose/z:if/z:choose/z:if/z:group", {"prefix": " pp. ", "suffix": "、"})
+        c = self.addcondition(lc, "z:choose/z:if/z:choose/z:if/z:group")
+        self.setattr(c["if"], "z:group", {"prefix": "pp. ", "suffix": "、"})
+        self.setattr(c["else"], "z:group", {"prefix": ", pp. "})
 
     def locatorsarticle(self):
+        # needs splitting
         la = self.macros.get("locators-article", None)
-        self.setattr(la, "z:choose/z:else-if/z:choose/z:if/z:text", {"prefix": ":"})
+        self.setattr(la, "z:choose/z:else-if/z:choose/z:if/z:text", {"prefix": ":", "suffix":". "})
         
         # c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:if/z:text")
         # self.setattr(c["if"], "z:text", {"prefix": "、", "suffix": "頁"})
@@ -99,6 +102,11 @@ class Kyosei(Chicago):
         a = self.macros.get("access", None)
         self.setattr(a, "z:group", {"delimiter": " "})
         c = self.addcondition(a, "z:group/z:choose[4]")
+        
+        #doi & url
+        # self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"prefix": ". "})
+        # self.setattr(c["else"], "z:choose/z:if/z:choose/z:if/z:text", {"prefix": ". "})
+        
         self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"suffix": " "})
         self.render({"tag": "date", "attrib": {"variable": "accessed", "prefix": " (", "suffix": ")", "form":"text"}}, c["else"], path="z:choose/z:if/z:choose/z:else")
         

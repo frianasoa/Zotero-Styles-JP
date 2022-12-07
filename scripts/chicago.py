@@ -27,7 +27,7 @@ class Chicago:
         self.save()
         
     def create_(self):
-        self.language()
+        self.setroot()
         self.doctitle()
         self.id()
         self.contributor()
@@ -132,8 +132,9 @@ class Chicago:
             ]}
         self.render(locale, self.root, self.info)
     
-    def language(self):
+    def setroot(self):
         self.root.attrib["default-locale"] = "en-US"
+        self.root.attrib["page-range-format"] = "expanded"
     
     def setissue(self):
         issue = self.macros.get("issue", None)
@@ -180,7 +181,7 @@ class Chicago:
         e = self.macros.get("edition", None)
         c = self.addcondition(e, "z:choose/z:else-if/z:choose/z:else/z:text")
         self.setattr(c["if"], "z:text", {"prefix": "（", "suffix": "）"}   )
-        self.setattr(c["else"], "z:text", {"prefix": "(", "suffix": ")"} )
+        self.setattr(c["else"], "z:text", {"prefix": " (", "suffix": ") "} )
         
     def secondarycontributors(self):
         p = self.macros.get("secondary-contributors", None)
@@ -223,13 +224,10 @@ class Chicago:
         })
         
         editors = v["if"].xpath("z:names/z:substitute/z:names[@variable='editor']", namespaces=self.ns)
-        if len(editors)<=0:
-            return
-        else:
+        if len(editors)>0:
             editor = editors[0]
-        
-        self.setattr(editor, ".", {"suffix":"編"})
-        self.render({"tag": "name", "attrib": { "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never"}}, editor, where=0)
+            self.setattr(editor, ".", {"suffix":"編"})
+            self.render({"tag": "name", "attrib": { "name-as-sort-order":"all", "delimiter":"・", "delimiter-precedes-last":"never"}}, editor, where=0)
         
         self.setattr(v["else"], "z:names/z:name", {"and": "symbol", "name-as-sort-order": "all", "delimiter-precedes-last": "never", "initialize-with": ". "})
         
@@ -237,6 +235,7 @@ class Chicago:
         
         c = v["if"].getparent().getparent().getparent()
         self.move(c, "z:group/z:text", "z:group/choose")
+        
         self.conds["contributors"] = v
 
     def containercontributors(self):

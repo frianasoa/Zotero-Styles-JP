@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="chicago" default-locale="en-US">
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="expanded" default-locale="en-US">
   <info>
     <title>Chicago Manual of Style 17th edition (author-date) - KYOSEI　（日本語）</title>
     <id>http://www.zotero.org/styles/chicago-author-date-kyosei-ja</id>
@@ -37,7 +37,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for KYOSEI　（日本語）</summary>
-    <updated>2022-12-07T22:35:36+09:00</updated>
+    <updated>2022-12-08T02:06:38+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -131,7 +131,7 @@
                 <name and="text" delimiter=", "/>
               </names>
               <names variable="editor translator" delimiter=", ">
-                <name and="text" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". " initialize="false" name-as-sort-order="all"/>
+                <name and="text" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". " initialize="false"/>
                 <label form="short" prefix=" (" suffix="). "/>
               </names>
             </group>
@@ -200,7 +200,7 @@
         <else>
           <names variable="author" suffix=". ">
             <name and="text" name-as-sort-order="all" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". " initialize="false"/>
-            <label prefix=", "/>
+            <label form="short" prefix=" (" suffix=")"/>
             <substitute>
               <names variable="editor"/>
               <names variable="translator"/>
@@ -383,7 +383,7 @@
             <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
           </if>
           <else>
-            <text variable="title" text-case="title" quotes="false" prefix="“" suffix="”"/>
+            <text variable="title" text-case="title" quotes="false" suffix=". "/>
           </else>
         </choose>
       </else>
@@ -418,7 +418,7 @@
                 <text variable="edition" prefix="（" suffix="）"/>
               </if>
               <else>
-                <text variable="edition" prefix="(" suffix=")"/>
+                <text variable="edition" prefix=" (" suffix=") "/>
               </else>
             </choose>
           </else>
@@ -498,10 +498,20 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
           <if variable="page">
-            <group prefix=" pp. " suffix="、">
-              <text variable="volume" suffix=":"/>
-              <text variable="page"/>
-            </group>
+            <choose>
+              <if variable="name-kana">
+                <group prefix="pp. " suffix="、">
+                  <text variable="volume" suffix=":"/>
+                  <text variable="page"/>
+                </group>
+              </if>
+              <else>
+                <group prefix=", pp. ">
+                  <text variable="volume" suffix=":"/>
+                  <text variable="page"/>
+                </group>
+              </else>
+            </choose>
           </if>
         </choose>
       </if>
@@ -524,7 +534,7 @@
       <else-if type="article-journal">
         <choose>
           <if variable="volume issue" match="any">
-            <text variable="page" prefix=":"/>
+            <text variable="page" prefix=":" suffix=". "/>
           </if>
           <else>
             <text variable="page" prefix=", "/>
