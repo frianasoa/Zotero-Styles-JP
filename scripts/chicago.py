@@ -50,6 +50,8 @@ class Chicago:
         self.contributorsshort()
         self.publisher()
         self.title()
+        self.secondarycontributors()
+        self.edition()
 
     def updated(self):  
         up = self.child(self.info, "z:updated")
@@ -108,7 +110,7 @@ class Chicago:
     
     def locale(self):
         en = self.locales["en"]
-        self.delelement(en, "z:terms/z:term[@name='editor' and @form='verb-short']")
+        self.delelement(en, ".")
         
         locale = {
             "tag":"locale", 
@@ -118,6 +120,9 @@ class Chicago:
                     "tag": "terms", 
                     "children": 
                     [
+                        {"tag": "term", "attrib": {"name": "editortranslator", "form":"verb"}, "text": "編訳"},
+                        {"tag": "term", "attrib": {"name": "translator", "form":"short"}, "text": "訳"},
+                        {"tag": "term", "attrib": {"name": "translator", "form":"verb-short"}, "text": "訳"},
                         {"tag": "term", "attrib": {"name": "and others"}, "text": "ほか"},
                         {"tag": "term", "attrib": {"name": "editor", "form":"short"}, "children": [
                             {"tag": "single", "text": "ed."},
@@ -170,6 +175,24 @@ class Chicago:
         self.setattr(t["if"], "z:text", {"quotes":"false", "prefix": "「", "suffix": "」"})
         self.setattr(t["else"], "z:text", {"quotes":"false"})
         self.conds["title"] = t
+        
+    def edition(self):
+        e = self.macros.get("edition", None)
+        c = self.addcondition(e, "z:choose/z:else-if/z:choose/z:else/z:text")
+        self.setattr(c["if"], "z:text", {"prefix": "（", "suffix": "）"}   )
+        self.setattr(c["else"], "z:text", {"prefix": "(", "suffix": ")"} )
+        
+    def secondarycontributors(self):
+        p = self.macros.get("secondary-contributors", None)
+        c = self.addcondition(p, "z:choose/z:if/z:group")
+        self.setattr(c["if"], "z:group", {"delimiter": "・", "suffix": None})
+        self.setattr(c["if"], "z:group/z:names[@variable='editor translator']", {"delimiter": None, "suffix": None})
+        self.setattr(c["if"], "z:group/z:names[@variable='director']", {"delimiter": None, "suffix": None})
+        self.move(c["if"], "z:group/z:names[@variable='editor translator']/z:label", "z:group/z:names[@variable='editor translator']/z:name" )
+        
+        self.conds["secondary-contributors"] = c
+        
+        self.setattr(self.bibliography, "z:layout/z:text[@macro='secondary-contributors']", {"prefix": None})
         
     def publisher(self):
         p = self.macros.get("publisher", None)
@@ -379,7 +402,19 @@ class Chicago:
         self.setattr(cwp["if"], "z:text", {"suffix": "、", "prefix": "、"})
         self.setattr(cwp["else"], "z:text", {"prefix": " "})
         self.conds["container-title-webpage"] = cwp
-        
+    
+    def originallocators(self):
+        aj = self.conds["locators"]
+        t = aj["if"].getparent().getparent()
+        self.delelement(t, "choose")
+        self.render({"tag": "group", "children":[{"tag": "choose", "children": [
+            {"tag": "if", "attrib":{"variable": "volume issue", "match": "all"}, "children": [{"tag":"text", "attrib":{"variable": "volume"}}, {"tag":"text", "attrib":{"variable": "issue", "prefix": "(", "suffix": ")"}}]},
+            {"tag": "else-if", "attrib":{"variable": "volume"}, "children": [{"tag":"text", "attrib":{"variable": "volume"}}]},
+            {"tag": "else-if", "attrib":{"variable": "issue"}, "children": [{"tag":"text", "attrib":{"variable": "issue"}}]},
+            {"tag": "else", "children": [{"tag":"date", "attrib":{"variable": "issued", "prefix": "(", "suffix": ")"}, "children":[{"tag": "date-part", "attrib":{"name": "month"}}]}]},
+            
+        ]}]}, t)
+    
     def getmacros(self):
         m = self.tree.findall('z:macro', self.ns)
         m = {x.attrib["name"]:x for x in m}

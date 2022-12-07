@@ -37,24 +37,19 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for AERJ　（日本語）</summary>
-    <updated>2022-12-06T21:33:42+09:00</updated>
+    <updated>2022-12-07T22:35:36+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
     <terms>
+      <term name="editortranslator" form="verb">編訳</term>
+      <term name="translator" form="short">訳</term>
+      <term name="translator" form="verb-short">訳</term>
       <term name="and others">ほか</term>
       <term name="editor" form="short">
         <single>ed.</single>
         <multiple>eds.</multiple>
       </term>
-    </terms>
-  </locale>
-  <locale xml:lang="en">
-    <terms>
-      <term name="container-author" form="verb">by</term>
-      <term name="translator" form="verb-short">trans.</term>
-      <term name="editortranslator" form="verb">edited and translated by</term>
-      <term name="translator" form="short">trans.</term>
     </terms>
   </locale>
   <locale xml:lang="pt-PT">
@@ -84,16 +79,32 @@
   <macro name="secondary-contributors">
     <choose>
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="none">
-        <group delimiter=". ">
-          <names variable="editor translator" delimiter=". ">
-            <label form="verb" text-case="capitalize-first" suffix=" "/>
-            <name and="text" delimiter=", "/>
-          </names>
-          <names variable="director" delimiter=". ">
-            <label form="verb" text-case="capitalize-first" suffix=" "/>
-            <name and="text" delimiter=", "/>
-          </names>
-        </group>
+        <choose>
+          <if variable="name-kana">
+            <group delimiter="・">
+              <names variable="editor translator">
+                <name and="text" delimiter=", "/>
+                <label form="verb" text-case="capitalize-first" suffix=" "/>
+              </names>
+              <names variable="director">
+                <label form="verb" text-case="capitalize-first" suffix=" "/>
+                <name and="text" delimiter=", "/>
+              </names>
+            </group>
+          </if>
+          <else>
+            <group delimiter=". ">
+              <names variable="editor translator" delimiter=". ">
+                <label form="verb" text-case="capitalize-first" suffix=" "/>
+                <name and="text" delimiter=", "/>
+              </names>
+              <names variable="director" delimiter=". ">
+                <label form="verb" text-case="capitalize-first" suffix=" "/>
+                <name and="text" delimiter=", "/>
+              </names>
+            </group>
+          </else>
+        </choose>
       </if>
     </choose>
   </macro>
@@ -395,7 +406,14 @@
             </group>
           </if>
           <else>
-            <text variable="edition" prefix=", "/>
+            <choose>
+              <if variable="name-kana">
+                <text variable="edition" prefix="（" suffix="）"/>
+              </if>
+              <else>
+                <text variable="edition" prefix="(" suffix=")"/>
+              </else>
+            </choose>
           </else>
         </choose>
       </else-if>
@@ -903,7 +921,7 @@
         <text macro="title"/>
       </group>
       <text macro="description"/>
-      <text macro="secondary-contributors" prefix=". "/>
+      <text macro="secondary-contributors"/>
       <text macro="container-contributors"/>
       <text macro="container-title" prefix=""/>
       <text macro="edition"/>
