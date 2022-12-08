@@ -1,7 +1,7 @@
 from .chicago import Chicago
 import copy
 
-class Kyosei(Chicago):
+class Kyoso(Chicago):
     def __init__(self, input, journal, suffix, doclinks):
         super().__init__(input, journal, suffix, doclinks)
     
@@ -50,8 +50,8 @@ class Kyosei(Chicago):
         
         # Date no parentheses
         c = self.conds["date"]
-        self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " ", "suffix": ". "})
-        self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " ", "suffix": ". "})
+        self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " ", "suffix": "　"})
+        self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " ", "suffix": "　"})
         
         # Date with comma [ja]
         self.setattr(c["if"], "z:group/z:date[@variable='original-date']", {"prefix": " ", "suffix": ""})
@@ -63,8 +63,8 @@ class Kyosei(Chicago):
         self.render({"tag": "name-part", "attrib": {"name": "family"}}, c["if"], path="z:names/z:name")
         self.render({"tag": "name-part", "attrib": {"name": "given", "prefix": " "}}, c["if"], path="z:names/z:name")
         
-        self.setattr(c["else"], "z:names", {"suffix": ". "})
-        self.setattr(c["else"], "z:names/z:name", {"initialize": "false", "and": "text"})
+        self.setattr(c["else"], "z:names", {"suffix": ""})
+        self.setattr(c["else"], "z:names/z:name", {"initialize": "false", "and": "text", "name-as-sort-order":"first"})
         self.setattr(c["else"], "z:names/z:label", {"prefix": " (", "suffix":")", "form": "short"})
         
         # remove dot before "In"
@@ -76,7 +76,7 @@ class Kyosei(Chicago):
         hen.attrib["variable"] = "editor"
         
         self.setattr(c["else"], "text", {"prefix": ". "})
-        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": None})
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "true", "name-as-sort-order": None})
         
         # add 、 in front of contributors [ja]
         # self.setattr(c["if"], "z:group", {"prefix": "、", "suffix": "、"})
@@ -93,6 +93,18 @@ class Kyosei(Chicago):
         
         #remove delimiter before &
         self.setattr(self.conds["contributors-short"]["else"], "z:names/z:name", {"delimiter-precedes-last":"never"})
+        self.aaa()
+        
+    def aaa(self):
+        layout = self.child(self.bibliography, "z:layout")
+        group = self.child(self.bibliography, "z:layout/z:group")
+        self.unwrap(group)
+        self.wrap(layout, "group", {"display": "block"})
+        
+        c = self.child(self.bibliography, "z:layout/group/z:text[@macro='contributors']")
+        layout.insert(0, c)
+        
+        self.setattr(self.bibliography, ".", {"hanging-indent": None, "subsequent-author-substitute":""})
     
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)

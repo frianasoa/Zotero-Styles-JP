@@ -5,6 +5,7 @@
     <id>http://www.zotero.org/styles/chicago-author-date-aerj-ja</id>
     <link href="http://www.zotero.org/styles/chicago-author-date" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
+    <link href="https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf" rel="documentation"/>
     <author>
       <name>Julian Onions</name>
       <email>julian.onions@gmail.com</email>
@@ -37,7 +38,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for AERJ　（日本語）</summary>
-    <updated>2022-12-08T16:10:24+09:00</updated>
+    <updated>2022-12-08T21:07:11+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">

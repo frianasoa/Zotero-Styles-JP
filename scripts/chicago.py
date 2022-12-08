@@ -3,12 +3,13 @@ from lxml import etree as ET
 from lxml.etree import SubElement, QName
 
 class Chicago:
-    def __init__(self, input, journal, suffix):
+    def __init__(self, input, journal, suffix, doclinks):
         self.conds = {}
         self.ns = {"z": "http://purl.org/net/xbiblio/csl"}
         self.input = input
         self.journal = journal
         self.suffix = suffix
+        self.doclinks = doclinks
         parser = ET.XMLParser(remove_blank_text=True)
         self.tree = ET.parse(self.input, parser)
         self.root = self.tree.getroot()
@@ -17,9 +18,14 @@ class Chicago:
         self.locales = self.getlocales()
         self.citation = self.tree.findall('z:citation', self.ns)[0]
         self.bibliography = self.tree.findall('z:bibliography', self.ns)[0]
+        self.setdoclinks()
     
     def custom(self):
         pass
+    
+    def setdoclinks(self):
+        for l in self.doclinks:
+            self.render({"tag": "link", "attrib": {"href":l, "rel": "documentation"}}, self.info, previous=self.child(self.info, "z:link[2]"))
     
     def create(self):
         self.create_()
@@ -519,6 +525,26 @@ class Chicago:
                 self.render(child, element)
         return element
     
+    def unwrap(self, element, clean=True):
+        parent = element.getparent()
+        children = element.getchildren()
+        index =  element.getparent().getchildren().index(element)
+        for c in children:
+            parent.insert(index, c)
+            index+=1
+        if clean:
+            parent.remove(element)
+    
+    def wrap(self, element, w="group", attrib={}):
+        children = element.getchildren()
+        # group = self.render({"tag": w}, element)
+        group = SubElement(self.root, w)
+        for c in children:
+            group.insert(-1, c)
+        element.insert(0, group)
+        for a in attrib:
+            group.attrib[a] = attrib[a]
+        
     def shortpagelabel(self, prefix=None, suffix=None):
         pl = self.macros.get("point-locators", None)
         c = self.addcondition(pl, "z:choose/z:if/z:text")

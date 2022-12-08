@@ -1,12 +1,13 @@
 from .chicago import Chicago
 
 class Jids(Chicago):
-    def __init__(self, input, journal, suffix):
-        super().__init__(input, journal, suffix)
+    def __init__(self, input, journal, suffix, doclinks):
+        super().__init__(input, journal, suffix, doclinks)
     
     def custom(self):
         # remove comma after name (setcitation)
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":""})
+        
         prefix = {"if": {"tag":"label", "attrib": {"variable": "locator", "form": "short", "suffix":" "}}, "else": {"tag":"label", "attrib": {"variable": "locator", "form": "short", "suffix":" "}}}
         
         self.shortpagelabel(prefix=prefix)

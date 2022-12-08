@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="expanded" default-locale="en-US">
   <info>
-    <title>Chicago Manual of Style 17th edition (author-date) - JIDS　（日本語）</title>
-    <id>http://www.zotero.org/styles/chicago-author-date-jids-ja</id>
+    <title>Chicago Manual of Style 17th edition (author-date) - KYOSO　（日本語）</title>
+    <id>http://www.zotero.org/styles/chicago-author-date-kyoso-ja</id>
     <link href="http://www.zotero.org/styles/chicago-author-date" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
-    <link href="https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view" rel="documentation"/>
-    <link href="https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view" rel="documentation"/>
+    <link href="http://www.hus.osaka-u.ac.jp/mirai-kyoso/ja/journal/mirai-kyoso-journaltoko_11.pdf" rel="documentation"/>
     <author>
       <name>Julian Onions</name>
       <email>julian.onions@gmail.com</email>
@@ -38,7 +37,7 @@
     </contributor>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
-    <summary>The author-date variant of the Chicago style - Edited for JIDS　（日本語）</summary>
+    <summary>The author-date variant of the Chicago style - Edited for KYOSO　（日本語）</summary>
     <updated>2022-12-08T21:07:11+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
@@ -83,7 +82,7 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="none">
         <choose>
           <if variable="name-kana">
-            <group delimiter="・">
+            <group delimiter="・" suffix="、">
               <names variable="editor translator">
                 <name and="text" delimiter=", "/>
                 <label form="verb" text-case="capitalize-first" suffix=" "/>
@@ -115,25 +114,28 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
           <if variable="name-kana">
-            <group prefix="、" delimiter="" suffix="、">
+            <group prefix="" delimiter="">
               <names variable="container-author" delimiter="・">
                 <label form="verb" suffix=" "/>
                 <name delimiter="・"/>
               </names>
-              <names variable="editor translator" delimiter="・" suffix="編">
+              <names variable="translator" delimiter="・" suffix="訳、">
+                <name delimiter="・" sort-separator=", " delimiter-precedes-last="never"/>
+              </names>
+              <names variable="editor" delimiter="・" suffix="編">
                 <name delimiter="・" sort-separator=", " delimiter-precedes-last="never"/>
               </names>
             </group>
           </if>
           <else>
-            <text value="In" suffix=" " prefix=" "/>
+            <text value="In" suffix=" " prefix=". "/>
             <group prefix=" " delimiter=", ">
               <names variable="container-author" delimiter=", ">
                 <label form="verb" suffix=" "/>
                 <name and="text" delimiter=", "/>
               </names>
               <names variable="editor translator" delimiter=", ">
-                <name and="text" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". " initialize="false" name-as-sort-order="all"/>
+                <name and="text" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". " initialize="true"/>
                 <label form="short" prefix=" (" suffix="). "/>
               </names>
             </group>
@@ -184,7 +186,10 @@
       <choose>
         <if variable="name-kana">
           <names variable="author">
-            <name name-as-sort-order="all" delimiter="・" delimiter-precedes-last="never"/>
+            <name delimiter="・" delimiter-precedes-last="never">
+              <name-part name="family"/>
+              <name-part name="given" prefix=" "/>
+            </name>
             <substitute>
               <names variable="editor" suffix="編">
                 <name name-as-sort-order="all" delimiter="・" delimiter-precedes-last="never"/>
@@ -197,9 +202,9 @@
           </names>
         </if>
         <else>
-          <names variable="author" suffix=". ">
-            <name and="text" name-as-sort-order="all" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". " initialize="false"/>
-            <label prefix=", "/>
+          <names variable="author" suffix="">
+            <name and="text" name-as-sort-order="first" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". " initialize="false"/>
+            <label form="short" prefix=" (" suffix=")"/>
             <substitute>
               <names variable="editor"/>
               <names variable="translator"/>
@@ -230,7 +235,7 @@
       </if>
       <else>
         <names variable="author">
-          <name form="short" and="symbol" delimiter=", " initialize-with=". "/>
+          <name form="short" and="symbol" delimiter=", " initialize-with=". " delimiter-precedes-last="never"/>
           <substitute>
             <names variable="editor"/>
             <names variable="translator"/>
@@ -283,10 +288,10 @@
                 </if>
                 <else>
                   <text variable="URL" suffix=" "/>
-                  <date variable="accessed" prefix="（" suffix="）">
-                    <date-part form="numeric" name="year" suffix="年"/>
-                    <date-part form="numeric" name="month" suffix="月"/>
-                    <date-part form="numeric" name="day" suffix="日"/>
+                  <date variable="accessed" prefix="（" suffix=" アクセス）" delimiter="/">
+                    <date-part form="numeric" name="year"/>
+                    <date-part form="numeric" name="month"/>
+                    <date-part form="numeric" name="day"/>
                   </date>
                 </else>
               </choose>
@@ -301,8 +306,12 @@
                   <text variable="DOI" prefix=". "/>
                 </if>
                 <else>
-                  <text variable="URL" suffix=" " prefix=". "/>
-                  <date variable="accessed" prefix=" (" suffix=")" form="text"/>
+                  <text variable="URL" prefix=". " suffix=" "/>
+                  <date variable="accessed" prefix="（" suffix=" アクセス）" delimiter="/">
+                    <date-part form="numeric" name="year"/>
+                    <date-part form="numeric" name="month"/>
+                    <date-part form="numeric" name="day"/>
+                  </date>
                 </else>
               </choose>
             </if>
@@ -378,7 +387,7 @@
             <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
           </if>
           <else>
-            <text variable="title" text-case="title" quotes="false" prefix="“" suffix="”"/>
+            <text variable="title" text-case="title" quotes="false"/>
           </else>
         </choose>
       </else>
@@ -424,62 +433,25 @@
   <macro name="locators">
     <choose>
       <if type="article-journal">
-        <choose>
-          <if variable="name-kana">
-            <group delimiter="、">
-              <choose>
-                <if variable="volume">
-                  <text variable="volume" suffix="巻" prefix="第"/>
-                </if>
-              </choose>
-              <choose>
-                <if variable="issue">
-                  <text variable="issue" suffix="号" prefix="第"/>
-                </if>
-                <else>
-                  <date variable="issued" prefix=", ">
-                    <date-part name="month"/>
-                  </date>
-                </else>
-              </choose>
-            </group>
-          </if>
-          <else>
-            <group>
-              <choose>
-                <if variable="volume">
-                  <text variable="volume" prefix=" Vol. "/>
-                  <group>
-                    <choose>
-                      <if variable="issue">
-                        <text variable="issue" prefix=", No. "/>
-                      </if>
-                      <else>
-                        <date variable="issued" prefix=", (" suffix=")">
-                          <date-part name="month"/>
-                        </date>
-                      </else>
-                    </choose>
-                  </group>
-                </if>
-                <else-if variable="issue">
-                  <group delimiter=" " prefix=", ">
-                    <text term="issue" form="short"/>
-                    <text variable="issue"/>
-                    <date variable="issued" prefix="(" suffix=")">
-                      <date-part name="month"/>
-                    </date>
-                  </group>
-                </else-if>
-                <else>
-                  <date variable="issued" prefix=", ">
-                    <date-part name="month"/>
-                  </date>
-                </else>
-              </choose>
-            </group>
-          </else>
-        </choose>
+        <group>
+          <choose>
+            <if variable="volume issue" match="all">
+              <text variable="volume"/>
+              <text variable="issue" prefix="(" suffix=")"/>
+            </if>
+            <else-if variable="volume">
+              <text variable="volume"/>
+            </else-if>
+            <else-if variable="issue">
+              <text variable="issue"/>
+            </else-if>
+            <else>
+              <date variable="issued" prefix="(" suffix=")">
+                <date-part name="month"/>
+              </date>
+            </else>
+          </choose>
+        </group>
       </if>
       <else-if type="legal_case">
         <text variable="volume" prefix=", "/>
@@ -532,7 +504,7 @@
           <if variable="page">
             <choose>
               <if variable="name-kana">
-                <group prefix="、" suffix="頁">
+                <group prefix="pp. " suffix="、">
                   <text variable="volume" suffix=":"/>
                   <text variable="page"/>
                 </group>
@@ -568,22 +540,15 @@
           <if variable="volume issue" match="any">
             <choose>
               <if variable="name-kana">
-                <text variable="page" prefix="、" suffix="頁"/>
+                <text variable="page" prefix=":"/>
               </if>
               <else>
-                <text variable="page" prefix=", pp. " suffix=""/>
+                <text variable="page" prefix=":"/>
               </else>
             </choose>
           </if>
           <else>
-            <choose>
-              <if variable="name-kana">
-                <text variable="page" prefix=", "/>
-              </if>
-              <else>
-                <text variable="page" prefix=", "/>
-              </else>
-            </choose>
+            <text variable="page" prefix=", "/>
           </else>
         </choose>
       </else-if>
@@ -618,16 +583,7 @@
             <number variable="volume" form="numeric" suffix=":"/>
           </else-if>
         </choose>
-        <choose>
-          <if variable="name-kana">
-            <label variable="locator" form="short" suffix=" "/>
-            <text variable="locator"/>
-          </if>
-          <else>
-            <label variable="locator" form="short" suffix=" "/>
-            <text variable="locator"/>
-          </else>
-        </choose>
+        <text variable="locator"/>
       </if>
     </choose>
   </macro>
@@ -642,7 +598,7 @@
             <text variable="container-title" text-case="title" suffix="。" prefix="、"/>
           </if>
           <else>
-            <text variable="container-title" text-case="title" prefix=" "/>
+            <text variable="container-title" text-case="title" prefix=". " suffix=""/>
           </else>
         </choose>
       </if>
@@ -657,7 +613,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" prefix="、『" suffix="』"/>
+                  <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
@@ -674,7 +630,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" font-style="italic" prefix=" " suffix=". "/>
+                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=". "/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" font-style="italic"/>
@@ -689,7 +645,7 @@
   <macro name="publisher">
     <choose>
       <if variable="name-kana">
-        <group delimiter=": " prefix="、">
+        <group delimiter=": ">
           <text variable="publisher-place"/>
           <text variable="publisher"/>
         </group>
@@ -708,16 +664,16 @@
         <choose>
           <if variable="name-kana">
             <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix="、" suffix="、"/>
-              <date variable="issued" prefix="、" suffix="、">
+              <date variable="original-date" form="text" date-parts="year" prefix=" " suffix=""/>
+              <date variable="issued" prefix=" " suffix="">
                 <date-part name="year"/>
               </date>
             </group>
           </if>
           <else>
             <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix=" " suffix=". "/>
-              <date variable="issued" prefix=" " suffix=". ">
+              <date variable="original-date" form="text" date-parts="year" prefix=" " suffix="　"/>
+              <date variable="issued" prefix=" " suffix="　">
                 <date-part name="year"/>
               </date>
             </group>
@@ -896,9 +852,9 @@
       </else>
     </choose>
   </macro>
-  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; ">
+  <citation disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; " et-al-subsequent-min="3" et-al-subsequent-use-first="1">
     <layout prefix=" (" suffix=")" delimiter="; ">
-      <group delimiter=", ">
+      <group delimiter=":">
         <choose>
           <if variable="issued accessed" match="any">
             <group delimiter=" ">
@@ -918,7 +874,7 @@
       </group>
     </layout>
   </citation>
-  <bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7" entry-spacing="0">
+  <bibliography et-al-min="11" et-al-use-first="7" entry-spacing="0" subsequent-author-substitute="">
     <sort>
       <key variable="name-kana"/>
       <key macro="contributors"/>
@@ -926,31 +882,31 @@
       <key variable="title"/>
     </sort>
     <layout>
-      <group delimiter="">
-        <text macro="contributors"/>
+      <text macro="contributors"/>
+      <group display="block">
         <text macro="date"/>
         <text macro="title"/>
+        <text macro="description"/>
+        <text macro="secondary-contributors"/>
+        <text macro="container-contributors"/>
+        <text macro="container-title" prefix=""/>
+        <text macro="edition"/>
+        <text macro="locators-chapter"/>
+        <text macro="collection-title-journal" prefix=", " suffix=", "/>
+        <text macro="locators"/>
+        <text macro="collection-title" prefix=". "/>
+        <text macro="locators-article"/>
+        <text macro="issue"/>
+        <text macro="access"/>
+        <choose>
+          <if variable="name-kana">
+            <text value="。"/>
+          </if>
+          <else>
+            <text value="."/>
+          </else>
+        </choose>
       </group>
-      <text macro="description"/>
-      <text macro="secondary-contributors"/>
-      <text macro="container-contributors"/>
-      <text macro="container-title" prefix=""/>
-      <text macro="edition"/>
-      <text macro="issue"/>
-      <text macro="locators-chapter"/>
-      <text macro="collection-title-journal" prefix=", " suffix=", "/>
-      <text macro="locators"/>
-      <text macro="collection-title" prefix=". "/>
-      <text macro="locators-article"/>
-      <text macro="access"/>
-      <choose>
-        <if variable="name-kana">
-          <text value="。"/>
-        </if>
-        <else>
-          <text value="."/>
-        </else>
-      </choose>
     </layout>
   </bibliography>
 </style>
