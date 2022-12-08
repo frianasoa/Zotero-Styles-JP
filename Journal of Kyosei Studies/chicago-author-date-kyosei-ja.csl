@@ -37,7 +37,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for KYOSEI　（日本語）</summary>
-    <updated>2022-12-08T02:06:38+09:00</updated>
+    <updated>2022-12-08T15:58:25+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -118,13 +118,16 @@
                 <label form="verb" suffix=" "/>
                 <name delimiter="・"/>
               </names>
-              <names variable="editor translator" delimiter="・" suffix="編">
+              <names variable="translator" delimiter="・" suffix="訳、">
+                <name delimiter="・" sort-separator=", " delimiter-precedes-last="never"/>
+              </names>
+              <names variable="editor" delimiter="・" suffix="編">
                 <name delimiter="・" sort-separator=", " delimiter-precedes-last="never"/>
               </names>
             </group>
           </if>
           <else>
-            <text value="In" suffix=" " prefix=" "/>
+            <text value="In" suffix=" " prefix=". "/>
             <group prefix=" " delimiter=", ">
               <names variable="container-author" delimiter=", ">
                 <label form="verb" suffix=" "/>
@@ -231,7 +234,7 @@
       </if>
       <else>
         <names variable="author">
-          <name form="short" and="symbol" delimiter=", " initialize-with=". "/>
+          <name form="short" and="symbol" delimiter=", " initialize-with=". " delimiter-precedes-last="never"/>
           <substitute>
             <names variable="editor"/>
             <names variable="translator"/>
@@ -299,10 +302,10 @@
             <if type="legal_case" match="none">
               <choose>
                 <if variable="DOI">
-                  <text variable="DOI" prefix="https://doi.org/"/>
+                  <text variable="DOI" prefix=". "/>
                 </if>
                 <else>
-                  <text variable="URL" suffix=" "/>
+                  <text variable="URL" prefix=". " suffix=" "/>
                   <date variable="accessed" prefix="（" suffix=" アクセス）" delimiter="/">
                     <date-part form="numeric" name="year"/>
                     <date-part form="numeric" name="month"/>
@@ -383,7 +386,7 @@
             <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
           </if>
           <else>
-            <text variable="title" text-case="title" quotes="false" suffix=". "/>
+            <text variable="title" text-case="title" quotes="false"/>
           </else>
         </choose>
       </else>
@@ -534,7 +537,14 @@
       <else-if type="article-journal">
         <choose>
           <if variable="volume issue" match="any">
-            <text variable="page" prefix=":" suffix=". "/>
+            <choose>
+              <if variable="name-kana">
+                <text variable="page" prefix=":"/>
+              </if>
+              <else>
+                <text variable="page" prefix=":"/>
+              </else>
+            </choose>
           </if>
           <else>
             <text variable="page" prefix=", "/>
@@ -587,7 +597,7 @@
             <text variable="container-title" text-case="title" suffix="。" prefix="、"/>
           </if>
           <else>
-            <text variable="container-title" text-case="title" prefix=" "/>
+            <text variable="container-title" text-case="title" prefix=". " suffix=""/>
           </else>
         </choose>
       </if>
@@ -619,7 +629,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" font-style="italic" prefix=" " suffix=". "/>
+                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=". "/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" font-style="italic"/>
@@ -841,9 +851,9 @@
       </else>
     </choose>
   </macro>
-  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; ">
+  <citation disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; " et-al-subsequent-min="3" et-al-subsequent-use-first="1">
     <layout prefix=" (" suffix=")" delimiter="; ">
-      <group delimiter=", ">
+      <group delimiter=":">
         <choose>
           <if variable="issued accessed" match="any">
             <group delimiter=" ">

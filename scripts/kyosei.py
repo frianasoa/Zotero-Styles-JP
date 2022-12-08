@@ -1,4 +1,5 @@
 from .chicago import Chicago
+import copy
 
 class Kyosei(Chicago):
     def __init__(self, input, journal, suffix):
@@ -7,7 +8,9 @@ class Kyosei(Chicago):
     def custom(self):
         # remove comma after name (setcitation)
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":""})
-                
+        self.setattr(self.citation, ".", {"et-al-subsequent-min":"3", "et-al-subsequent-use-first":"1", "et-al-min":None, "et-al-use-first": None})
+        self.shortpageprefix(":")
+        
         # Issue number
         self.originallocators()
 
@@ -29,16 +32,17 @@ class Kyosei(Chicago):
         
         # Title
         t = self.conds["title"] 
-        self.setattr(t["else"], "z:text", {"quotes":"false", "prefix": None, "suffix": ". "})
+        self.setattr(t["else"], "z:text", {"quotes":"false", "prefix": None, "suffix": None})
         
         # Journal name
         t = self.conds["container-title"]
         self.setattr(t["if"], "z:group/choose/if/z:text", {"prefix":None, "suffix":None})
-        self.setattr(t["else"], "z:group/choose/if/z:text", {"prefix":" ", "suffix":". "})
+        self.setattr(t["else"], "z:group/choose/if/z:text", {"prefix":". ", "suffix":". "})
         
         # webpage container title [ja]
         ctw = self.conds["container-title-webpage"]
         self.setattr(ctw["if"], "z:text", {"prefix":"、", "suffix":"。"})
+        self.setattr(ctw["else"], "z:text", {"prefix":". ", "suffix":""})
 
         # Journal name (Add comma in front) [ja]
         t = self.conds["container-title"]
@@ -65,7 +69,13 @@ class Kyosei(Chicago):
         
         # remove dot before "In"
         c = self.conds["container-contributors"]
-        self.setattr(c["else"], "text", {"prefix": " "})
+        hen = self.child(c["if"], "z:group/z:names[@variable='editor translator']")
+        yaku = copy.deepcopy(hen)
+        hen.getparent().insert(-1, yaku)
+        self.setattrs(yaku, {"variable": "translator", "delimiter": "・", "suffix": "訳、"})
+        hen.attrib["variable"] = "editor"
+        
+        self.setattr(c["else"], "text", {"prefix": ". "})
         self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:name", {"and": "text", "initialize": "false", "name-as-sort-order": None})
         
         # add 、 in front of contributors [ja]
@@ -80,6 +90,9 @@ class Kyosei(Chicago):
         
         #move issue towards the end
         self.move(self.bibliography, "z:layout/z:text[@macro='issue']", "z:layout/z:text[@macro='locators-article']")
+        
+        #remove delimiter before &
+        self.setattr(self.conds["contributors-short"]["else"], "z:names/z:name", {"delimiter-precedes-last":"never"})
     
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)
@@ -88,11 +101,12 @@ class Kyosei(Chicago):
         self.setattr(c["else"], "z:group", {"prefix": ", pp. "})
 
     def locatorsarticle(self):
-        # needs splitting
         la = self.macros.get("locators-article", None)
-        self.setattr(la, "z:choose/z:else-if/z:choose/z:if/z:text", {"prefix": ":", "suffix":". "})
+        # self.setattr(la, "z:choose/z:else-if/z:choose/z:if/z:text", {"prefix": ":", "suffix":". "})
+        c = self.addcondition(la, "z:choose/z:else-if/z:choose/z:if/z:text")
+        self.setattr(c["if"], "z:text", {"prefix": ":", "suffix": None})
+        self.setattr(c["else"], "z:text", {"prefix": ":", "suffix":None})
         
-        # c = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:if/z:text")
         # self.setattr(c["if"], "z:text", {"prefix": "、", "suffix": "頁"})
         # self.setattr(c["else"], "z:text", {"prefix": ", ", "suffix": ""})
         # d = self.addcondition(la, "z:choose/z:else-if[@type='article-journal']/z:choose/z:else/z:text")
@@ -104,8 +118,8 @@ class Kyosei(Chicago):
         c = self.addcondition(a, "z:group/z:choose[4]")
         
         #doi & url
-        # self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"prefix": ". "})
-        # self.setattr(c["else"], "z:choose/z:if/z:choose/z:if/z:text", {"prefix": ". "})
+        self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"prefix": ". "})
+        self.setattr(c["else"], "z:choose/z:if/z:choose/z:if/z:text", {"prefix": ". "})
         
         self.setattr(c["else"], "z:choose/z:if/z:choose/z:else/z:text", {"suffix": " "})
         self.render({"tag": "date", "attrib": {"variable": "accessed", "prefix": " (", "suffix": ")", "form":"text"}}, c["else"], path="z:choose/z:if/z:choose/z:else")

@@ -7,6 +7,9 @@ class Jids(Chicago):
     def custom(self):
         # remove comma after name (setcitation)
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":""})
+        prefix = {"if": {"tag":"label", "attrib": {"variable": "locator", "form": "short", "suffix":" "}}, "else": {"tag":"label", "attrib": {"variable": "locator", "form": "short", "suffix":" "}}}
+        
+        self.shortpagelabel(prefix=prefix)
         
         # Add pp to page
         c = self.conds["locators-article"]
@@ -85,3 +88,4 @@ class Jids(Chicago):
         # add 、 in front of publisher [ja]
         c = self.conds["publisher"]
         self.setattr(c["if"], "z:group", {"prefix": "、"})
+        

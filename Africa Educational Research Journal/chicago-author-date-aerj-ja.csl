@@ -37,7 +37,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for AERJ　（日本語）</summary>
-    <updated>2022-12-08T02:06:38+09:00</updated>
+    <updated>2022-12-08T15:58:25+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -616,7 +616,16 @@
             <number variable="volume" form="numeric" suffix=":"/>
           </else-if>
         </choose>
-        <text variable="locator"/>
+        <choose>
+          <if variable="name-kana">
+            <text variable="locator"/>
+            <text value="頁"/>
+          </if>
+          <else>
+            <label variable="locator" form="short" suffix=" "/>
+            <text variable="locator"/>
+          </else>
+        </choose>
       </if>
     </choose>
   </macro>

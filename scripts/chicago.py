@@ -52,7 +52,8 @@ class Chicago:
         self.title()
         self.secondarycontributors()
         self.edition()
-
+        self.shortpageprefix()
+        
     def updated(self):  
         up = self.child(self.info, "z:updated")
         up.text = datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
@@ -203,6 +204,8 @@ class Chicago:
     def contributorsshort(self):
         cs = self.macros.get("contributors-short", None)
         c = self.addcondition(cs, "z:names")
+        self.conds["contributors-short"] = c
+        
         self.setattr(c["if"], "z:names/z:name", {"form":"short", "delimiter":"・", "and": None, "initialize-with": None})
         
         self.setattr(c["else"], "z:names/z:name", {"and":"symbol"})
@@ -515,7 +518,21 @@ class Chicago:
             for child in children:
                 self.render(child, element)
         return element
+    
+    def shortpagelabel(self, prefix=None, suffix=None):
+        pl = self.macros.get("point-locators", None)
+        c = self.addcondition(pl, "z:choose/z:if/z:text")
         
+        if prefix is not None:
+            pref = self.render(prefix["if"], c["if"], where=-2)
+            pref = self.render(prefix["else"], c["else"], where=-2)
+        if suffix is not None:
+            pref = self.render(suffix["if"], c["if"], where=-1)
+            pref = self.render(suffix["else"], c["else"], where=-1)
+    
+    def shortpageprefix(self, prefix=", ", label=""):
+        self.setattr(self.citation, "z:layout/z:group", {"delimiter": prefix})
+    
     def move(self, parent, elementxpath, previousxpath):
         if parent is None:
             return
@@ -540,7 +557,13 @@ class Chicago:
             index = previous.getparent().getchildren().index(previous)+1
             previous.getparent().insert(index, element)
         
-        
+    
+    def setattrs(self, parent, values):
+        for key in values:
+            v = values[key]
+            parent.attrib[key] = v
+        return parent
+    
     def setattr(self, parent, element, attr):
         if parent is None:
             return
