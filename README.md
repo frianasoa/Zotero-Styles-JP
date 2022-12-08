@@ -15,6 +15,10 @@ In this folder, you will find the (unofficial) styles for the Journal of Interna
 Source (en): https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view \
 Source (ja): https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view (pp. 195-197)
 
+## Journal of Kyosei Studies
+In this folder, you will find the (unofficial) styles for the Journal of Kyosei Studies of Osaka University. Due to current limitation of it is not possible to insert space between last name and given name suggested by the guidelines. Inserting comma after the last name of an author in katakana is also impossible for the moment. Please edit them manually at the end of your workflow. \
+Source: http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd795307005aa71cd3a930f2557a.pdf
+
 # Instructions
 ## Install
 * Head to the release page: https://github.com/frianasoa/Zotero-Styles-JP/releases/
