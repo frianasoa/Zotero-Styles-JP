@@ -38,14 +38,15 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for KYOSEI　（日本語）</summary>
-    <updated>2022-12-08T21:07:11+09:00</updated>
+    <updated>2023-02-09T17:39:13+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
     <terms>
       <term name="editortranslator" form="verb">編訳</term>
-      <term name="translator" form="short">訳</term>
-      <term name="translator" form="verb-short">訳</term>
+      <term name="editortranslator" form="verb-short">Edited and translated by</term>
+      <term name="translator" form="verb">訳</term>
+      <term name="translator" form="verb-short">Translated by</term>
       <term name="and others">ほか</term>
       <term name="editor" form="short">
         <single>ed.</single>
@@ -83,7 +84,7 @@
         <choose>
           <if variable="name-kana">
             <group delimiter="・" suffix="、">
-              <names variable="editor translator">
+              <names variable="editor translator" suffix="、">
                 <name and="text" delimiter=", "/>
                 <label form="verb" text-case="capitalize-first" suffix=" "/>
               </names>
@@ -95,8 +96,8 @@
           </if>
           <else>
             <group delimiter=". ">
-              <names variable="editor translator" delimiter=". ">
-                <label form="verb" text-case="capitalize-first" suffix=" "/>
+              <names variable="editor translator" delimiter=", " prefix=". ">
+                <label form="verb-short" text-case="capitalize-first" suffix=" "/>
                 <name and="text" delimiter=", "/>
               </names>
               <names variable="director" delimiter=". ">
@@ -853,7 +854,7 @@
     </choose>
   </macro>
   <citation disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; " et-al-subsequent-min="3" et-al-subsequent-use-first="1">
-    <layout prefix=" (" suffix=")" delimiter="; ">
+    <layout prefix="（" suffix="）" delimiter="; ">
       <group delimiter=":">
         <choose>
           <if variable="issued accessed" match="any">

@@ -57,6 +57,7 @@ class Chicago:
         self.publisher()
         self.title()
         self.secondarycontributors()
+        self.translator()
         self.edition()
         self.shortpageprefix()
         
@@ -75,8 +76,14 @@ class Chicago:
         """
         Add comma after name
         """
+        #Split citation
+        
+        
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
-        self.setattr(self.citation, "z:layout", {"prefix": " (", "suffix": ")"})
+        self.setattr(self.citation, "z:layout", {"prefix": "（", "suffix": "）"})
+        
+        # c = self.addcondition(self.citation, "z:layout")
+        # self.setattr(c["if"], "z:layout", {"prefix": "（", "suffix": "）"})
         
     def setbiblio(self):
         self.move(self.bibliography, "z:layout/z:text[@macro='issue']", "z:layout/z:text[@macro='edition']")
@@ -128,8 +135,9 @@ class Chicago:
                     "children": 
                     [
                         {"tag": "term", "attrib": {"name": "editortranslator", "form":"verb"}, "text": "編訳"},
-                        {"tag": "term", "attrib": {"name": "translator", "form":"short"}, "text": "訳"},
-                        {"tag": "term", "attrib": {"name": "translator", "form":"verb-short"}, "text": "訳"},
+                        {"tag": "term", "attrib": {"name": "editortranslator", "form":"verb-short"}, "text": "Edited and translated by"},
+                        {"tag": "term", "attrib": {"name": "translator", "form":"verb"}, "text": "訳"},
+                        {"tag": "term", "attrib": {"name": "translator", "form":"verb-short"}, "text": "Translated by"},
                         {"tag": "term", "attrib": {"name": "and others"}, "text": "ほか"},
                         {"tag": "term", "attrib": {"name": "editor", "form":"short"}, "children": [
                             {"tag": "single", "text": "ed."},
@@ -189,14 +197,25 @@ class Chicago:
         c = self.addcondition(e, "z:choose/z:else-if/z:choose/z:else/z:text")
         self.setattr(c["if"], "z:text", {"prefix": "（", "suffix": "）"}   )
         self.setattr(c["else"], "z:text", {"prefix": " (", "suffix": ") "} )
+    
+    def translator(self):
+        return
+        t = self.macros.get("translator", None)
+        c = self.addcondition(t, "z:names")
+        self.render({"tag": "text", "attrib": {"term": "translated by "}}, c["else"])
         
+    
     def secondarycontributors(self):
         p = self.macros.get("secondary-contributors", None)
         c = self.addcondition(p, "z:choose/z:if/z:group")
         self.setattr(c["if"], "z:group", {"delimiter": "・", "suffix": None})
-        self.setattr(c["if"], "z:group/z:names[@variable='editor translator']", {"delimiter": None, "suffix": None})
+        self.setattr(c["if"], "z:group/z:names[@variable='editor translator']", {"delimiter": None, "suffix": "、"})
         self.setattr(c["if"], "z:group/z:names[@variable='director']", {"delimiter": None, "suffix": None})
         self.move(c["if"], "z:group/z:names[@variable='editor translator']/z:label", "z:group/z:names[@variable='editor translator']/z:name" )
+        
+        # else
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']", {"delimiter": ", ", "prefix":". "})
+        self.setattr(c["else"], "z:group/z:names[@variable='editor translator']/z:label", {"form": "verb-short"})
         
         self.conds["secondary-contributors"] = c
         
