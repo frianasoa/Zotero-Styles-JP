@@ -16,4 +16,4 @@ class JidsEn(Jids):
         Add comma after name
         """
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
-        self.setattr(self.citation, "z:layout", {"prefix": " (", "suffix": ") "})
+        self.setattr(self.citation, "z:layout", {"prefix": "(", "suffix": ")"})
