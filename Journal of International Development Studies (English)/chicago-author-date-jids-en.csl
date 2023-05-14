@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="expanded" default-locale="en-US">
   <info>
-    <title>Chicago Manual of Style 17th edition (author-date) - AERJ　（日本語）</title>
-    <id>http://www.zotero.org/styles/chicago-author-date-aerj-ja</id>
+    <title>Chicago Manual of Style 17th edition (author-date) - JIDS (English)</title>
+    <id>http://www.zotero.org/styles/chicago-author-date-jids-en</id>
     <link href="http://www.zotero.org/styles/chicago-author-date" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
-    <link href="https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf" rel="documentation"/>
+    <link href="https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view" rel="documentation"/>
+    <link href="https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view" rel="documentation"/>
     <author>
       <name>Julian Onions</name>
       <email>julian.onions@gmail.com</email>
@@ -37,7 +38,7 @@
     </contributor>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
-    <summary>The author-date variant of the Chicago style - Edited for AERJ　（日本語）</summary>
+    <summary>The author-date variant of the Chicago style - Edited for JIDS (English)</summary>
     <updated>2023-05-14T23:06:30+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
@@ -115,7 +116,7 @@
       <if type="chapter entry-dictionary entry-encyclopedia paper-conference" match="any">
         <choose>
           <if variable="name-kana">
-            <group prefix="" delimiter="">
+            <group prefix="、" delimiter="" suffix="、">
               <names variable="container-author" delimiter="・">
                 <label form="verb" suffix=" "/>
                 <name delimiter="・"/>
@@ -126,14 +127,14 @@
             </group>
           </if>
           <else>
-            <text value="In" suffix=" " prefix=". "/>
+            <text value="In" suffix=" " prefix=" "/>
             <group prefix=" " delimiter=", ">
               <names variable="container-author" delimiter=", ">
                 <label form="verb" suffix=" "/>
                 <name and="text" delimiter=", "/>
               </names>
               <names variable="editor translator" delimiter=", ">
-                <name and="symbol" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". "/>
+                <name and="text" delimiter=", " sort-separator=", " delimiter-precedes-last="never" initialize-with=". " initialize="false" name-as-sort-order="all"/>
                 <label form="short" prefix=" (" suffix="). "/>
               </names>
             </group>
@@ -197,9 +198,9 @@
           </names>
         </if>
         <else>
-          <names variable="author">
-            <name and="symbol" name-as-sort-order="all" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". "/>
-            <label form="short" prefix=", "/>
+          <names variable="author" suffix=". ">
+            <name and="text" name-as-sort-order="all" sort-separator=", " delimiter=", " delimiter-precedes-last="never" initialize-with=". " initialize="false"/>
+            <label prefix=", "/>
             <substitute>
               <names variable="editor"/>
               <names variable="translator"/>
@@ -298,10 +299,10 @@
             <if type="legal_case" match="none">
               <choose>
                 <if variable="DOI">
-                  <text variable="DOI" prefix="https://doi.org/"/>
+                  <text variable="DOI" prefix=". "/>
                 </if>
                 <else>
-                  <text variable="URL" suffix=" "/>
+                  <text variable="URL" suffix=" " prefix=". "/>
                   <date variable="accessed" prefix=" (" suffix=")" form="text"/>
                 </else>
               </choose>
@@ -378,7 +379,7 @@
             <text variable="title" text-case="title" quotes="false" prefix="「" suffix="」"/>
           </if>
           <else>
-            <text variable="title" text-case="title" quotes="false"/>
+            <text variable="title" text-case="title" quotes="false" prefix="“" suffix="”"/>
           </else>
         </choose>
       </else>
@@ -426,15 +427,15 @@
       <if type="article-journal">
         <choose>
           <if variable="name-kana">
-            <group>
+            <group delimiter="、">
               <choose>
                 <if variable="volume">
-                  <text variable="volume" suffix="巻"/>
+                  <text variable="volume" suffix="巻" prefix="第"/>
                 </if>
               </choose>
               <choose>
                 <if variable="issue">
-                  <text variable="issue" suffix="号"/>
+                  <text variable="issue" suffix="号" prefix="第"/>
                 </if>
                 <else>
                   <date variable="issued" prefix=", ">
@@ -448,14 +449,14 @@
             <group>
               <choose>
                 <if variable="volume">
-                  <text variable="volume" prefix=" "/>
-                  <group prefix=" (" suffix=")">
+                  <text variable="volume" prefix=" Vol. "/>
+                  <group>
                     <choose>
                       <if variable="issue">
-                        <text variable="issue"/>
+                        <text variable="issue" prefix=", No. "/>
                       </if>
                       <else>
-                        <date variable="issued">
+                        <date variable="issued" prefix=", (" suffix=")">
                           <date-part name="month"/>
                         </date>
                       </else>
@@ -571,7 +572,7 @@
                 <text variable="page" prefix="、" suffix="頁"/>
               </if>
               <else>
-                <text variable="page" prefix=", " suffix=""/>
+                <text variable="page" prefix=", pp. " suffix=""/>
               </else>
             </choose>
           </if>
@@ -620,8 +621,8 @@
         </choose>
         <choose>
           <if variable="name-kana">
+            <label variable="locator" form="short" suffix=" "/>
             <text variable="locator"/>
-            <text value="頁"/>
           </if>
           <else>
             <label variable="locator" form="short" suffix=" "/>
@@ -639,7 +640,7 @@
       <if type="webpage">
         <choose>
           <if variable="name-kana">
-            <text variable="container-title" text-case="title" suffix="、" prefix="、"/>
+            <text variable="container-title" text-case="title" suffix="。" prefix="、"/>
           </if>
           <else>
             <text variable="container-title" text-case="title" prefix=" "/>
@@ -657,7 +658,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
+                  <text variable="container-title" text-case="title" prefix="、『" suffix="』"/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" prefix="『" suffix="』"/>
@@ -674,7 +675,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=", "/>
+                  <text variable="container-title" text-case="title" font-style="italic" prefix=" " suffix=". "/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" font-style="italic"/>
@@ -689,7 +690,7 @@
   <macro name="publisher">
     <choose>
       <if variable="name-kana">
-        <group delimiter=": ">
+        <group delimiter=": " prefix="、">
           <text variable="publisher-place"/>
           <text variable="publisher"/>
         </group>
@@ -708,16 +709,16 @@
         <choose>
           <if variable="name-kana">
             <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix="（" suffix="）"/>
-              <date variable="issued" prefix="（" suffix="）">
+              <date variable="original-date" form="text" date-parts="year" prefix="、" suffix="、"/>
+              <date variable="issued" prefix="、" suffix="、">
                 <date-part name="year"/>
               </date>
             </group>
           </if>
           <else>
             <group delimiter="">
-              <date variable="original-date" form="text" date-parts="year" prefix=" (" suffix=")."/>
-              <date variable="issued" prefix=" (" suffix="). ">
+              <date variable="original-date" form="text" date-parts="year" prefix=" " suffix=". "/>
+              <date variable="issued" prefix=" " suffix=". ">
                 <date-part name="year"/>
               </date>
             </group>
@@ -897,12 +898,12 @@
     </choose>
   </macro>
   <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="false" disambiguate-add-names="false" disambiguate-add-givenname="false" givenname-disambiguation-rule="primary-name" collapse="year" after-collapse-delimiter="; ">
-    <layout prefix="（" suffix="）" delimiter="; ">
+    <layout prefix=" (" suffix=") " delimiter="; ">
       <group delimiter=", ">
         <choose>
           <if variable="issued accessed" match="any">
             <group delimiter=" ">
-              <text macro="contributors-short" suffix=", "/>
+              <text macro="contributors-short" suffix=""/>
               <text macro="date-in-text"/>
             </group>
           </if>
@@ -925,7 +926,7 @@
       <key variable="issued"/>
       <key variable="title"/>
     </sort>
-    <layout suffix=".">
+    <layout>
       <group delimiter="">
         <text macro="contributors"/>
         <text macro="date"/>
@@ -942,7 +943,15 @@
       <text macro="locators"/>
       <text macro="collection-title" prefix=". "/>
       <text macro="locators-article"/>
-      <text macro="access" prefix=". "/>
+      <text macro="access"/>
+      <choose>
+        <if variable="name-kana">
+          <text value="。"/>
+        </if>
+        <else>
+          <text value="."/>
+        </else>
+      </choose>
     </layout>
   </bibliography>
 </style>

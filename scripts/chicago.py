@@ -76,14 +76,8 @@ class Chicago:
         """
         Add comma after name
         """
-        #Split citation
-        
-        
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
         self.setattr(self.citation, "z:layout", {"prefix": "（", "suffix": "）"})
-        
-        # c = self.addcondition(self.citation, "z:layout")
-        # self.setattr(c["if"], "z:layout", {"prefix": "（", "suffix": "）"})
         
     def setbiblio(self):
         self.move(self.bibliography, "z:layout/z:text[@macro='issue']", "z:layout/z:text[@macro='edition']")

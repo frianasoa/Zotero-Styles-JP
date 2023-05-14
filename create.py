@@ -1,5 +1,6 @@
 from scripts.aerj import Aerj
 from scripts.jids import Jids
+from scripts.jidsen import JidsEn
 from scripts.kyosei import Kyosei
 from scripts.kyoso import Kyoso
 Aerj(
@@ -15,6 +16,16 @@ Jids(
     input  = 'scripts/source/chicago-author-date.csl', 
     journal = "Journal of International Development Studies", 
     suffix = {"id": "jids-ja", "title":"JIDS　（日本語）"},
+    doclinks = [
+        "https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view",
+        "https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view",
+    ]
+).create()
+
+JidsEn(
+    input  = 'scripts/source/chicago-author-date.csl', 
+    journal = "Journal of International Development Studies (English)", 
+    suffix = {"id": "jids-en", "title":"JIDS (English)"},
     doclinks = [
         "https://drive.google.com/file/d/1VAu6cAs5beGPgYpwNwfOXISZgXEaOKnL/view",
         "https://drive.google.com/file/d/1M0SKuOO7Bi_vsBWZ98cW99kGKXXwst-Y/view",
