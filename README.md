@@ -23,6 +23,9 @@ Source: http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd7953070
 In this folder, you will find the (unofficial) styles for Journal Mirai Kyoso of Osaka University. Due to current limitations of csl and Zotero, the double indent seems impossible to achieve. Inserting comma after the last name of an author in katakana is also impossible for the moment. Please edit them manually at the end of your workflow. \
 Source: http://www.hus.osaka-u.ac.jp/mirai-kyoso/ja/journal/mirai-kyoso-journaltoko_11.pdf
 
+## International Collaboration and Development Studies
+[Click here (Japanese)](https://github.com/frianasoa/Zotero-Styles-JP/tree/main/IC%20Zemi%20at%20HUS.OU)
+
 # Instructions
 ## Install
 * Head to the release page: https://github.com/frianasoa/Zotero-Styles-JP/releases/
