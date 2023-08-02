@@ -685,5 +685,7 @@ class Chicago:
     def save(self):
         os.makedirs(self.journal, exist_ok=True)
         outfile = self.journal+"/"+os.path.splitext(os.path.basename(self.input))[0]+"-"+self.suffix["id"]+".csl"
+        buildoutfile = "build"+"/"+os.path.splitext(os.path.basename(self.input))[0]+"-"+self.suffix["id"]+".csl"
         self.tree.write(outfile, pretty_print=True, xml_declaration=True, encoding="UTF-8")
+        self.tree.write(buildoutfile, pretty_print=True, xml_declaration=True, encoding="UTF-8")
     
