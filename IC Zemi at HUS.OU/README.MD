@@ -2,14 +2,17 @@
 ## ダウンロード
 　ダウンロードは[こちら](https://raw.githubusercontent.com/frianasoa/Zotero-Styles-JP/main/International%20Collaboration%20and%20Development%20Studies%20%40%20HUS.OU/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。<br/>
 
+　サンプルのワードファイルは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/raw/main/IC%20Zemi%20at%20HUS.OU/chicago-author-date-iczemi-ja.docx)からダウンロードできる。
+
 ## インストール
 ダウンロードしたファイルにダブルクリックでよいが、できない場合は図1の①→②→③を押して、ファイルを選択して、インストールする。<br/>
 <figure>
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/installing-style.png?raw=true" />
 <figure-caption>図 1. スタイルをインストールする</figure-caption>
-</figure> 
+</figure> <br/>
 
-このスタイルは日本語と英語を両方表示できるように、CSLの原則を守らない書き方をする。インストールする際、エラーはでるが、図２のように「OK」を押せば、インストールは無事にできる。
+### インストールエラー
+　このスタイルは日本語と英語を両方表示できるように、CSLの原則を守らない書き方をする。インストールする際、エラーはでるが、図２のように「OK」を押せば、インストールは無事にできる。
 
 <figure>
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/install-error.png?raw=true" />
