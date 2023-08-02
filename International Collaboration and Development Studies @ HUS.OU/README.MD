@@ -6,6 +6,7 @@
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/adding-extra.png?raw=true" />
 <figure-caption>図 1. 並べ替のキーを設定する</figure-caption>
 </figure>
+<br/>
 
 ダウンロードは[こちら](https://raw.githubusercontent.com/frianasoa/Zotero-Styles-JP/main/International%20Collaboration%20and%20Development%20Studies%20%40%20HUS.OU/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。
 
