@@ -42,3 +42,14 @@
 
 ### なぜ手入力がいるか？
 　現在のZoteroのバージョンは限界があるため（正しくはCSLの限界）、手入力がいる。将来のバージョンでは要らなくなる可能性はあるが、その時にこのスタイルを更新する。そうすると、お使いのZoteroの情報も通常（手入力した点を削除）に戻さないといけないが、更新したらまた通知する。
+
+## その他のスタイルをダウンロード
+* 国際協力学ゼミ　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)
+
+* 共生学ジャーナル　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyosei-ja.csl)
+
+* ジャーナル『未来共創』　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyoso-ja.csl)
+
+* アフリカ教育研究　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-aerj-ja.csl)
+
+* 国際開発研究　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-jids-en.csl)
