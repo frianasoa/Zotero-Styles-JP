@@ -7,8 +7,8 @@ I created these styles because I want to stick with Zotero. However, if you are 
 
 ## Africa Educational Research Journal
 In this folder, you will find the (unofficial) styles for the Africa Educational Research Journal, a journal of the Japan Society for Africa Educational Research. I have only set the bibliography and citation for book, book chapter, and journal article following the note to contributors. I have aditionally added style for web page. \
-Source: https://www.japan-society-for-africa-educational-research.org/app/download/8289809356/AERJ12.pdf \
-Page 139-140
+Source: https://www.japan-society-for-africa-educational-research.org/app/download/8349858856/AERJ13.pdf \
+Page 91-96
 
 ## Journal of International Development Studies
 In this folder, you will find the (unofficial) styles for the Journal of International Development Studies. I have only set the bibliography and citation for book, book chapter, journal article, and web page. \

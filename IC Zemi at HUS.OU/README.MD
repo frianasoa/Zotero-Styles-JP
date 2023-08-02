@@ -52,4 +52,6 @@
 
 * アフリカ教育研究　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-aerj-ja.csl)
 
-* 国際開発研究　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-jids-en.csl)
+* 国際開発研究　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-jids-ja.csl)
+
+* 国際開発研究（英語）　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-jids-en.csl)
