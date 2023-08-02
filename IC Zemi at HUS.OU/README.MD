@@ -3,14 +3,18 @@
 　ダウンロードは[こちら](https://raw.githubusercontent.com/frianasoa/Zotero-Styles-JP/main/International%20Collaboration%20and%20Development%20Studies%20%40%20HUS.OU/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。<br/>
 
 ## インストール
-ダウンロードしたファイルにダブルクリックでよいが、できない場合は図1のようにインストールする。<br/>
+ダウンロードしたファイルにダブルクリックでよいが、できない場合は図1の①→②→③を押して、ファイルを選択して、インストールする。<br/>
 <figure>
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/installing-style.png?raw=true" />
 <figure-caption>図 1. スタイルをインストールする</figure-caption>
+</figure> 
+
+このスタイルは日本語と英語を両方表示できるように、CSLの原則を守らない書き方をする。インストールする際、エラーはでるが、図２のように「OK」を押せば、インストールは無事にできる。
+
+<figure>
+<img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/install-error.png?raw=true" />
+<figure-caption>図 1. インストールエラー</figure-caption>
 </figure>
-
-
-
 
 ## 日本語の文献について
 　日本語の文献の情報には「name-kana」の値を設定する必要がある。 <br/>
