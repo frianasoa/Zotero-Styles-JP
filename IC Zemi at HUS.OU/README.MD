@@ -1,4 +1,4 @@
-# 国際協力学ゼミ（日本語）
+# ICゼミ（日本語）
 ## ダウンロード
 　ダウンロードは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。サンプルのワードファイルは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/raw/main/IC%20Zemi%20at%20HUS.OU/chicago-author-date-iczemi-ja.docx)からダウンロードできる。<br/>
 
@@ -46,7 +46,7 @@
 ## その他のスタイルをダウンロード
 ダウンロードするには、右クリックで名前をつけて保存！
 
-* 国際協力学ゼミ　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)
+* ICゼミ　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)
 
 * 共生学ジャーナル　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyosei-ja.csl)
 
