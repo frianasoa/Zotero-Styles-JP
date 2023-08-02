@@ -3,6 +3,8 @@ from scripts.jids import Jids
 from scripts.jidsen import JidsEn
 from scripts.kyosei import Kyosei
 from scripts.kyoso import Kyoso
+from scripts.iczemi import ICZemi
+
 Aerj(
     input  = 'scripts/source/chicago-author-date.csl', 
     journal = "Africa Educational Research Journal", 
@@ -47,5 +49,14 @@ Kyoso(
     suffix = {"id": "kyoso-ja", "title":"KYOSO　（日本語）"},
     doclinks = [
         "http://www.hus.osaka-u.ac.jp/mirai-kyoso/ja/journal/mirai-kyoso-journaltoko_11.pdf"
+    ]
+).create()
+
+ICZemi(
+    input  = 'scripts/source/chicago-author-date.csl', 
+    journal = "International Collaboration and Development Studies @ HUS.OU", 
+    suffix = {"id": "iczemi-ja", "title":"IC Zemi　（日本語）"},
+    doclinks = [
+        "https://drive.google.com/file/d/1ZsYZXG98x1zHz4VdmBgeqyGlYDkyU8nD"
     ]
 ).create()

@@ -39,7 +39,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for JIDS　（日本語）</summary>
-    <updated>2023-05-14T23:14:19+09:00</updated>
+    <updated>2023-08-02T16:31:33+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -736,8 +736,8 @@
   <macro name="date-in-text">
     <choose>
       <if variable="issued">
-        <group delimiter=" ">
-          <date variable="original-date" form="text" date-parts="year" prefix="[" suffix="]"/>
+        <group>
+          <date variable="original-date" form="text" date-parts="year" suffix="="/>
           <date variable="issued">
             <date-part name="year"/>
           </date>
@@ -902,10 +902,20 @@
       <group delimiter=", ">
         <choose>
           <if variable="issued accessed" match="any">
-            <group delimiter=" ">
-              <text macro="contributors-short" suffix=""/>
-              <text macro="date-in-text"/>
-            </group>
+            <choose>
+              <if variable="name-kana">
+                <group delimiter="">
+                  <text macro="contributors-short" suffix=", "/>
+                  <text macro="date-in-text"/>
+                </group>
+              </if>
+              <else>
+                <group delimiter=" ">
+                  <text macro="contributors-short" suffix=", "/>
+                  <text macro="date-in-text"/>
+                </group>
+              </else>
+            </choose>
           </if>
           <!---comma before forthcoming and n.d.-->
           <else>

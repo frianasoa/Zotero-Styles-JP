@@ -60,6 +60,7 @@ class Chicago:
         self.translator()
         self.edition()
         self.shortpageprefix()
+        self.dateintext()
         
     def updated(self):  
         up = self.child(self.info, "z:updated")
@@ -78,6 +79,15 @@ class Chicago:
         """
         self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
         self.setattr(self.citation, "z:layout", {"prefix": "（", "suffix": "）"})
+        
+        """
+        Add condition
+        """
+        c = self.addcondition(self.citation, "z:layout/z:group/z:choose/z:if/z:group")
+        self.setattr(c["if"], "z:group", {"delimiter": ""}) 
+        self.setattr(c["else"], "z:group", {"delimiter": " "})
+        
+        
         
     def setbiblio(self):
         self.move(self.bibliography, "z:layout/z:text[@macro='issue']", "z:layout/z:text[@macro='edition']")
@@ -141,6 +151,11 @@ class Chicago:
             ]}
         self.render(locale, self.root, self.info)
     
+    def dateintext(self):
+        dit = self.macros.get("date-in-text", None)
+        self.setattr(dit, "z:choose/z:if/z:group", {"delimiter": None}) 
+        self.setattr(dit, "z:choose/z:if/z:group/z:date[@variable='original-date']", {"prefix": None, "suffix": "="}) 
+    
     def setroot(self):
         self.root.attrib["default-locale"] = "en-US"
         self.root.attrib["page-range-format"] = "expanded"
@@ -164,8 +179,7 @@ class Chicago:
         # if not Japanese
         self.setattr(c["else"], "z:group", {"delimiter": ""})
         self.setattr(c["else"], "z:group/z:date[@variable='original-date']", {"prefix": " (", "suffix": ")."})
-        self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})
-      
+        self.setattr(c["else"], "z:group/z:date[@variable='issued']", {"prefix": " (", "suffix": "). "})      
     
     def title(self):
         t = self.macros.get("title", None)
@@ -347,6 +361,7 @@ class Chicago:
         c = self.addcondition(lc, "z:choose/z:if/z:choose/z:if/z:group")
         self.setattr(c["if"], "z:group", {"prefix": "、", "suffix": "頁"})
         self.setattr(c["else"], "z:group", {"prefix": ", pp. "})
+        self.conds["locators-chapter"] = c
     
     def locatorsarticle(self):
         la = self.macros.get("locators-article", None)
@@ -446,10 +461,11 @@ class Chicago:
         m = {x.attrib[self.q("lang")]:x for x in m}
         return m
     
-    def addcondition(self, target, xpath):
+    def addcondition(self, target, xpath, elifs={}):
         """
         If the entry contains a field name-kana
         """
+        
         element = target.xpath(xpath, namespaces=self.ns)
         
         if len(element)<=0:
@@ -465,17 +481,33 @@ class Chicago:
         
         elementcopy = copy.deepcopy(element)
         parent = element.getparent()
-        
         choose = self.render({"tag": "choose"}, parent)
-        ifel = self.render({"tag": "if", "attrib":{"variable": "name-kana"}}, choose)
-        elseel = self.render({"tag": "else"}, choose)
-        ifel.insert(0, elementcopy)
-        elseel.insert(0, element)
-        return {
-            "if": ifel,
-            "else": elseel
-        }
+        r = {}
         
+        x = 0
+        for t in elifs:
+            c = elifs[t]
+            if x==0:
+                elifel = self.render({"tag": "if", "attrib":{"variable": c}}, choose)
+            else:
+                elifel = self.render({"tag": "else-if", "attrib":{"variable": c}}, choose)
+            elifel.insert(0, copy.deepcopy(element))
+            r[t]= elifel
+            x+=1
+        
+        # else if but kept as "if" for consistency
+        if len(elifs)==0:
+            ifel = self.render({"tag": "if", "attrib":{"variable": "name-kana"}}, choose)
+        else:
+            ifel = self.render({"tag": "else-if", "attrib":{"variable": "name-kana"}}, choose)
+        ifel.insert(0, elementcopy)
+        r["if"] = ifel
+        
+        elseel = self.render({"tag": "else"}, choose)        
+        elseel.insert(0, element)
+        r["else"] =  elseel
+        return r
+    
     def splitlocales(self, target, xpath, locales):
         element = target.xpath(xpath, namespaces=self.ns)
         
