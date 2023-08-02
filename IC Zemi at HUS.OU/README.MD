@@ -2,6 +2,16 @@
 ## ダウンロード
 　ダウンロードは[こちら](https://raw.githubusercontent.com/frianasoa/Zotero-Styles-JP/main/International%20Collaboration%20and%20Development%20Studies%20%40%20HUS.OU/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。<br/>
 
+## インストール
+ダウンロードしたファイルにダブルクリックでよいが、できない場合は図1のようにインストールする。<br/>
+<figure>
+<img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/installing-style.png?raw=true" />
+<figure-caption>図 1. スタイルをインストールする</figure-caption>
+</figure>
+
+
+
+
 ## 日本語の文献について
 　日本語の文献の情報には「name-kana」の値を設定する必要がある。 <br/>
 例えば 図１のように、「山下彰一（1999）」の「その他」のところに「name-kana:やましたしょういち」と入力する。<br/>
@@ -12,10 +22,10 @@
 </figure>
 
 ## カタカナの名前について
-　Zoteroは著者名が日本語だと自動的に「姓 → 名」の順で名前を表示する。しかし、ICゼミのスタイルではカタカナの名前は筆頭だけ、「姓、名」というふうになって、その後は「名・姓」という表記になる。これは自動的にできないため、手入力で、「、」や「・」を入れる。<br/>
+　Zoteroは著者名が日本語だと自動的に「姓 → 名」の順で名前を表示する。しかし、ICゼミのスタイルではカタカナの名前は筆頭者だけ、「姓、名」というふうになって、その後は「名・姓」という表記になる。これは自動的にできないため、手入力で、「、」や「・」を入れる。<br/>
 
 ### 著者が３人以上の場合
-著者が３人以上の場合は図２のように対応する。筆頭者の「名」の前に「、」を入れる。２人目からは「単独のフィールド」（著者名を「姓、名」にわけない）を使って「名・姓」のようにいれる。<br/>
+著者が３人以上の場合は図２のように対応する。筆頭者の「名」の前に「、」を入れる①。２人目からは「単独のフィールド」（著者名を「姓、名」にわけない［表示を切り替えるには③を押す］）を使って「名・姓」②のようにいれる。<br/>
 
 <figure>
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/katakana-names.png?raw=true" />
