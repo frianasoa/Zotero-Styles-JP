@@ -54,7 +54,7 @@ Kyoso(
 
 ICZemi(
     input  = 'scripts/source/chicago-author-date.csl', 
-    journal = "International Collaboration and Development Studies @ HUS.OU", 
+    journal = "IC Zemi at HUS.OU", 
     suffix = {"id": "iczemi-ja", "title":"IC Zemi　（日本語）"},
     doclinks = [
         "https://drive.google.com/file/d/1ZsYZXG98x1zHz4VdmBgeqyGlYDkyU8nD"
