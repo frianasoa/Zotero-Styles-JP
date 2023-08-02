@@ -1,8 +1,6 @@
 # 国際協力学ゼミ（日本語）
 ## ダウンロード
-　ダウンロードは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。
-
-サンプルのワードファイルは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/raw/main/IC%20Zemi%20at%20HUS.OU/chicago-author-date-iczemi-ja.docx)からダウンロードできる。<br/>
+　ダウンロードは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。サンプルのワードファイルは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/raw/main/IC%20Zemi%20at%20HUS.OU/chicago-author-date-iczemi-ja.docx)からダウンロードできる。<br/>
 
 ## インストール
 ダウンロードしたファイルをダブルクリックでよいが、できない場合は図1の①→②→③を押して、ファイルを選択して、インストールする。<br/>
