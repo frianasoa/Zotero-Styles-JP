@@ -3,7 +3,7 @@
 　ダウンロードは[こちら](https://raw.githubusercontent.com/frianasoa/Zotero-Styles-JP/main/International%20Collaboration%20and%20Development%20Studies%20%40%20HUS.OU/chicago-author-date-iczemi-ja.csl)に右クリックして、名前をつけて保存してください。サンプルのワードファイルは[こちら](https://github.com/frianasoa/Zotero-Styles-JP/raw/main/IC%20Zemi%20at%20HUS.OU/chicago-author-date-iczemi-ja.docx)からダウンロードできる。<br/>
 
 ## インストール
-ダウンロードしたファイルにダブルクリックでよいが、できない場合は図1の①→②→③を押して、ファイルを選択して、インストールする。<br/>
+ダウンロードしたファイルをダブルクリックでよいが、できない場合は図1の①→②→③を押して、ファイルを選択して、インストールする。<br/>
 <figure>
 <img style="border: dotted 1px; padding: 0.5em;" src="https://github.com/frianasoa/Zotero-Styles-JP/blob/main/assets/installing-style.png?raw=true" />
 <figure-caption>図1. スタイルをインストールする</figure-caption>
@@ -41,4 +41,4 @@
 著者が２人の場合は筆頭者の「名」の前に「、」を入れるだけ、そして、最終的に参考文献を修正する。
 
 ### なぜ手入力がいるか？
-　今のZoteroの限界のため（正しくはCSLの限界）、手入力がいる。将来のバージョンでは要らなくなる可能性がある。その時にこのスタイルを変える。そうすると、お使いのZoteroの情報も通常（手入力した点を削除）に戻さないといけないが、その時はまた通知する。
+　現在のZoteroのバージョンは限界があるため（正しくはCSLの限界）、手入力がいる。将来のバージョンでは要らなくなる可能性はあるが、その時にこのスタイルを更新する。そうすると、お使いのZoteroの情報も通常（手入力した点を削除）に戻さないといけないが、更新したらまた通知する。
