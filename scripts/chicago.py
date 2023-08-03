@@ -188,7 +188,10 @@ class Chicago:
         c1 = self.child(t, "z:choose/z:else-if[@type='bill book graphic legislation motion_picture song']")
         
         text = self.addcondition(c1, "z:text")
+        self.conds["title-1"] = text
+        
         group = self.addcondition(c1, "z:group")
+        self.conds["title-2"] = group
         
         self.setattr(text["if"], "z:text", {"text-case": None, "prefix": "『", "suffix": "』"})
         
@@ -198,6 +201,8 @@ class Chicago:
         
         c2 = self.child(t, "z:choose/z:else")
         t = self.addcondition(c2, "z:text")
+        self.conds["title-3"] = t
+        
         self.setattr(t["if"], "z:text", {"quotes":"false", "prefix": "「", "suffix": "」"})
         self.setattr(t["else"], "z:text", {"quotes":"false"})
         self.conds["title"] = t
@@ -207,6 +212,7 @@ class Chicago:
         c = self.addcondition(e, "z:choose/z:else-if/z:choose/z:else/z:text")
         self.setattr(c["if"], "z:text", {"prefix": "（", "suffix": "）"}   )
         self.setattr(c["else"], "z:text", {"prefix": " (", "suffix": ") "} )
+        self.conds["edition"] = c
     
     def translator(self):
         return
@@ -351,6 +357,7 @@ class Chicago:
         self.setattr(c["if"], "z:group/z:group/z:number", {"prefix":"（", "suffix":"）"})
         
         number = self.child(c["if"], "z:group/z:group/z:number[@variable='number-of-volumes']")
+        self.conds["locator-bill-etc"] = c
         if number is None:
             return
         group = number.getparent()

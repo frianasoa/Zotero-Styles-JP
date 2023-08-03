@@ -2,6 +2,7 @@ from scripts.aerj import Aerj
 from scripts.jids import Jids
 from scripts.jidsen import JidsEn
 from scripts.kyosei import Kyosei
+from scripts.kyoseien import Kyoseien
 from scripts.kyoso import Kyoso
 from scripts.iczemi import ICZemi
 
@@ -38,6 +39,15 @@ Kyosei(
     input  = 'scripts/source/chicago-author-date.csl', 
     journal = "Journal of Kyosei Studies", 
     suffix = {"id": "kyosei-ja", "title":"KYOSEI　（日本語）"},
+    doclinks = [
+        "http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd795307005aa71cd3a930f2557a.pdf"
+    ]
+).create()
+
+Kyoseien(
+    input  = 'scripts/source/chicago-author-date.csl', 
+    journal = "Journal of Kyosei Studies (English)", 
+    suffix = {"id": "kyosei-en", "title":"KYOSEI (English)"},
     doclinks = [
         "http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd795307005aa71cd3a930f2557a.pdf"
     ]
