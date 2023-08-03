@@ -3,8 +3,9 @@ from lxml import etree as ET
 from lxml.etree import SubElement, QName
 
 class Chicago:
-    def __init__(self, input, journal, suffix, doclinks):
+    def __init__(self, input, journal, suffix, doclinks, config={}):
         self.conds = {}
+        self.config = config
         self.ns = {"z": "http://purl.org/net/xbiblio/csl"}
         self.input = input
         self.journal = journal
@@ -77,7 +78,8 @@ class Chicago:
         """
         Add comma after name
         """
-        self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":", "})
+        
+        self.setattr(self.citation, "z:layout/z:group/z:choose/z:if/z:group/z:text[@macro='contributors-short']", {"suffix":self.config.get("short-author-suffix", ", ")})
         self.setattr(self.citation, "z:layout", {"prefix": "（", "suffix": "）"})
         
         """
@@ -431,7 +433,10 @@ class Chicago:
         jaelseelse = copy.deepcopy(jaelse)
         self.setattr(jaelseelse, ".", {"prefix":None, "suffix": None})
         elseel.insert(0, jaelseelse)      
-        self.conds["container-title"] = c 
+        self.conds["container-title"] = c
+
+        # Suffix
+        self.setattr(c["else"], "z:group/z:choose[position()=2]/z:if/z:text", {"suffix": "*"})
         
         # for webpage
         cwp = self.addcondition(ct, "z:choose/z:if[@type='webpage']/z:text")
@@ -604,6 +609,13 @@ class Chicago:
     def shortpageprefix(self, prefix=", ", label=""):
         self.setattr(self.citation, "z:layout/z:group", {"delimiter": prefix})
     
+    def changetag(self, parent, elementxpath, newtag):
+        elements = parent.xpath(elementxpath, namespaces=self.ns)
+        if len(elements)>0:
+            elements[0].tag = newtag
+        else:
+            print("No element for "+elementxpath)
+            
     def move(self, parent, elementxpath, previousxpath):
         if parent is None:
             return

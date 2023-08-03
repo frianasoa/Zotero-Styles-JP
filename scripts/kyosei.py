@@ -3,7 +3,10 @@ import copy
 
 class Kyosei(Chicago):
     def __init__(self, input, journal, suffix, doclinks):
-        super().__init__(input, journal, suffix, doclinks)
+        config = {
+            "short-author-suffix": " ",
+        }
+        super().__init__(input, journal, suffix, doclinks, config)
     
     def custom(self):
         # remove comma after name (setcitation)
@@ -20,7 +23,11 @@ class Kyosei(Chicago):
         text = self.render({"tag": "text"}, self.bibliography, path="z:layout")
         c = self.addcondition(text, ".")
         self.setattr(c["if"], "text", {"value": "。"})
-        self.setattr(c["else"], "text", {"value": "."})
+        
+        # Do not add period at the end for webpages
+        self.changetag(c["else"], "text", "if")
+        self.setattr(c["else"], "if", {"type": "webpage"})
+        self.render({"tag": "else", "children": [{"tag": "text", "attrib":{"value": "."}}]}, c["else"])
         
         # remove dot prefix in access
         self.setattr(self.bibliography, "z:layout/z:text[@macro='access']", {"prefix": None})
@@ -30,6 +37,7 @@ class Kyosei(Chicago):
 
         # Volume
         
+        
         # Title
         t = self.conds["title"] 
         self.setattr(t["else"], "z:text", {"quotes":"false", "prefix": None, "suffix": None})
@@ -37,7 +45,7 @@ class Kyosei(Chicago):
         # Journal name
         t = self.conds["container-title"]
         self.setattr(t["if"], "z:group/choose/if/z:text", {"prefix":None, "suffix":None})
-        self.setattr(t["else"], "z:group/choose/if/z:text", {"prefix":". ", "suffix":". "})
+        self.setattr(t["else"], "z:group/choose/if/z:text", {"prefix":". ", "suffix":" "})
         
         # webpage container title [ja]
         ctw = self.conds["container-title-webpage"]
@@ -84,7 +92,10 @@ class Kyosei(Chicago):
         # remov 、 in front of publisher [ja]
         c = self.conds["publisher"]
         self.setattr(c["if"], "z:group", {"prefix": None})
-        
+                
+        # remove place if it is Japanese
+        self.delelement(c["if"], "z:group/z:text[@variable='publisher-place']", delparent=False)
+
         c = self.conds["secondary-contributors"]
         self.setattr(c["if"], "z:group", {"suffix": "、"})
         
@@ -93,6 +104,8 @@ class Kyosei(Chicago):
         
         #remove delimiter before &
         self.setattr(self.conds["contributors-short"]["else"], "z:names/z:name", {"delimiter-precedes-last":"never"})
+        
+        
     
     def locatorschapter(self):
         lc = self.macros.get("locators-chapter", None)

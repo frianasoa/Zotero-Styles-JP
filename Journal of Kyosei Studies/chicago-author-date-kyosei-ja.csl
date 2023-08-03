@@ -38,7 +38,7 @@
     <category citation-format="author-date"/>
     <category field="generic-base"/>
     <summary>The author-date variant of the Chicago style - Edited for KYOSEI　（日本語）</summary>
-    <updated>2023-08-02T19:27:05+09:00</updated>
+    <updated>2023-08-03T20:04:30+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -631,7 +631,7 @@
               </choose>
               <choose>
                 <if type="article-journal">
-                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=". "/>
+                  <text variable="container-title" text-case="title" font-style="italic" prefix=". " suffix=" "/>
                 </if>
                 <else>
                   <text variable="container-title" text-case="title" font-style="italic"/>
@@ -647,7 +647,6 @@
     <choose>
       <if variable="name-kana">
         <group delimiter=": ">
-          <text variable="publisher-place"/>
           <text variable="publisher"/>
         </group>
       </if>
@@ -861,13 +860,13 @@
             <choose>
               <if variable="name-kana">
                 <group delimiter="">
-                  <text macro="contributors-short" suffix=", "/>
+                  <text macro="contributors-short" suffix=" "/>
                   <text macro="date-in-text"/>
                 </group>
               </if>
               <else>
                 <group delimiter=" ">
-                  <text macro="contributors-short" suffix=", "/>
+                  <text macro="contributors-short" suffix=" "/>
                   <text macro="date-in-text"/>
                 </group>
               </else>
@@ -915,7 +914,10 @@
           <text value="。"/>
         </if>
         <else>
-          <text value="."/>
+          <if type="webpage"/>
+          <else>
+            <text value="."/>
+          </else>
         </else>
       </choose>
     </layout>
