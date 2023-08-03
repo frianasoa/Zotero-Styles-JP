@@ -105,11 +105,11 @@ class Chicago:
     
     def summary(self):
         for summary in self.tree.findall('z:info/z:summary', self.ns):
-            summary.text = summary.text+" - Edited for "+self.suffix["title"]
+            summary.text = summary.text+" - Edited for "+self.journal+" ("+self.suffix["language"]+")"
             
     def doctitle(self):
         for title in self.tree.findall('z:info/z:title', self.ns):
-            title.text = title.text+" - "+self.suffix["title"]
+            title.text = self.journal+" ("+self.suffix["language"]+")"
     
     def id(self):
         for id in self.tree.findall('z:info/z:id', self.ns):

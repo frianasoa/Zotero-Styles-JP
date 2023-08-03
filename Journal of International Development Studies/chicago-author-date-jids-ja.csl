@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="display-and-sort" page-range-format="expanded" default-locale="en-US">
   <info>
-    <title>Chicago Manual of Style 17th edition (author-date) - JIDS　（日本語）</title>
+    <title>Journal of International Development Studies (Japanese)</title>
     <id>http://www.zotero.org/styles/chicago-author-date-jids-ja</id>
     <link href="http://www.zotero.org/styles/chicago-author-date" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
@@ -38,8 +38,8 @@
     </contributor>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
-    <summary>The author-date variant of the Chicago style - Edited for JIDS　（日本語）</summary>
-    <updated>2023-08-03T23:32:29+09:00</updated>
+    <summary>The author-date variant of the Chicago style - Edited for Journal of International Development Studies (Japanese)</summary>
+    <updated>2023-08-03T23:55:58+09:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
