@@ -50,6 +50,8 @@
 
 * 共生学ジャーナル　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyosei-ja.csl)
 
+* 共生学ジャーナル（英語）　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyosei-en.csl)
+
 * ICゼミ　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-iczemi-ja.csl)
 
 * ジャーナル『未来共創』　[ダウンロード](https://github.com/frianasoa/Zotero-Styles-JP/releases/latest/download/chicago-author-date-kyoso-ja.csl)
