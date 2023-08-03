@@ -38,7 +38,7 @@ JidsEn(
 Kyosei(
     input  = 'scripts/source/chicago-author-date.csl', 
     journal = "Journal of Kyosei Studies", 
-    suffix = {"id": "kyosei-ja", "title":"KYOSEI　（日本語）"},
+    suffix = {"id": "kyosei-ja", "title":"OU Kyosei Studies　（日本語）"},
     doclinks = [
         "http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd795307005aa71cd3a930f2557a.pdf"
     ]
@@ -47,7 +47,7 @@ Kyosei(
 Kyoseien(
     input  = 'scripts/source/chicago-author-date.csl', 
     journal = "Journal of Kyosei Studies (English)", 
-    suffix = {"id": "kyosei-en", "title":"KYOSEI (English)"},
+    suffix = {"id": "kyosei-en", "title":"OU Kyosei Studies (English)"},
     doclinks = [
         "http://kyosei.hus.osaka-u.ac.jp/wp-content/uploads/2021/07/3505fd795307005aa71cd3a930f2557a.pdf"
     ]

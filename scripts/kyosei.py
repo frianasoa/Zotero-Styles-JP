@@ -143,7 +143,7 @@ class Kyosei(Chicago):
             {
                 "tag": "date", "attrib": {"variable": "accessed", "prefix":"（", "suffix":" アクセス）", "delimiter": "/"},
                 "children": [
-                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"year"}},
+                    {"tag": "date-part", "attrib": {"form":"long", "name":"year"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"month"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"day"}}
                 ]
@@ -155,7 +155,7 @@ class Kyosei(Chicago):
             {
                 "tag": "date", "attrib": {"variable": "accessed", "prefix":"（", "suffix":" アクセス）", "delimiter": "/"},
                 "children": [
-                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"year"}},
+                    {"tag": "date-part", "attrib": {"form":"long", "name":"year"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"month"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"day"}}
                 ]

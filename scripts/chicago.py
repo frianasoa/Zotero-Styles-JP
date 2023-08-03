@@ -393,7 +393,7 @@ class Chicago:
             {
                 "tag": "date", "attrib": {"variable": "accessed", "prefix": "（", "suffix": "）"},
                 "children": [
-                    {"tag": "date-part", "attrib": {"form":"numeric", "name":"year", "suffix": "年"}},
+                    {"tag": "date-part", "attrib": {"form":"long", "name":"year", "suffix": "年"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"month", "suffix": "月"}},
                     {"tag": "date-part", "attrib": {"form":"numeric", "name":"day", "suffix": "日"}}
                 ]
@@ -601,6 +601,25 @@ class Chicago:
         element.insert(0, group)
         for a in attrib:
             group.attrib[a] = attrib[a]
+    
+    def revertconditions(self, keeptag="else"):
+        ifs = self.tree.xpath("//if[@variable='name-kana']")
+        for i in ifs:
+            parent = i.getparent()
+            keep = None
+            for c in parent:
+                if c.tag==keeptag:
+                    keep = c
+                else:
+                    parent.remove(c)
+            self.unwrap(parent, clean=True)
+            if keep is not None:
+                self.unwrap(keep, clean=True)
+        
+        # Remove sort key
+        keys = self.tree.xpath("//key[@variable='name-kana']")
+        for k in keys:
+            k.getparent().remove(k)
         
     def shortpagelabel(self, prefix=None, suffix=None):
         pl = self.macros.get("point-locators", None)
