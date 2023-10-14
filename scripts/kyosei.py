@@ -67,9 +67,9 @@ class Kyosei(Chicago):
         
         # Bibliography author
         c = self.conds["contributors"]
-        self.setattr(c["if"], "z:names/z:name", {"name-as-sort-order": None})
-        self.render({"tag": "name-part", "attrib": {"name": "family"}}, c["if"], path="z:names/z:name")
-        self.render({"tag": "name-part", "attrib": {"name": "given", "prefix": " "}}, c["if"], path="z:names/z:name")
+        self.setattr(c["if"], "z:names/z:name", {"name-as-sort-order": "first", "sort-separator":"、"})
+        self.render({"tag": "name-part", "attrib": {"name": "family", "suffix": " "}}, c["if"], path="z:names/z:name")
+        self.render({"tag": "name-part", "attrib": {"name": "given"}}, c["if"], path="z:names/z:name")
         
         self.setattr(c["else"], "z:names", {"suffix": ". "})
         self.setattr(c["else"], "z:names/z:name", {"initialize": "false", "and": "text"})

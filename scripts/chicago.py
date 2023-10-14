@@ -161,6 +161,7 @@ class Chicago:
     def setroot(self):
         self.root.attrib["default-locale"] = "en-US"
         self.root.attrib["page-range-format"] = "expanded"
+        self.root.attrib["katakana-display"] = "normal-order"
     
     def setissue(self):
         issue = self.macros.get("issue", None)

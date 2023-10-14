@@ -1,4 +1,8 @@
 # About
+## Migrating to a new repository
+Please check this new repository for newer style files. <br/>
+[https://github.com/frianasoa/pycsl](https://github.com/frianasoa/pycsl)
+
 ## Zotero styles for Japanese publications
 This is a repository for Zotero styles used by several Academic Societies I belong to. I originally created these styles for personal use but considered sharing them to benefit more people. \
 It also includes the python scripts I used to generate each style. I am cleaning the code from time to time. I will add new styles as they become available. I did my best to rigorously follow the guidelines of the societies but in doubt please see the societies' manuals and edit accordingly.\
